@@ -13,8 +13,7 @@ export function SiteFooter() {
           <div className="max-w-md">
             <Logo className="w-fit" />
             <p className="mt-6 text-base leading-7 text-white/70">
-              {siteConfig.tagline} Hamilton lawn care, seasonal cleanup,
-              and property maintenance with a simple, direct quote process.
+              {siteConfig.tagline} Proudly serving Hamilton and surrounding residential and commercial areas.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <ButtonLink href={siteConfig.phone.href} icon="phone" size="small" variant="secondary">

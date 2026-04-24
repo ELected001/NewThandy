@@ -22,13 +22,13 @@ export const siteConfig = {
   shortName: "Thandy",
   url: configuredSiteUrl,
   description:
-    "Hamilton lawn care, seasonal cleanup, and property maintenance for homeowners, seniors, landlords, and property managers who want dependable, respectful service.",
-  tagline: "Reliable property care, season after season.",
+    "Thandy Landscaping Services Inc. is a locally operated business providing dependable lawn care, seasonal cleanup, and outdoor property maintenance for homeowners, seniors, landlords, and property managers in Hamilton and surrounding areas.",
+  tagline: "Reliable Property Care — Season After Season",
   hero: {
     eyebrow: "Hamilton property care",
     title: "Reliable property care you can count on.",
     description:
-      "Dependable lawn care, seasonal cleanup, and outdoor property maintenance for homeowners, seniors, landlords, and property managers across Hamilton and surrounding areas.",
+      "Thandy Landscaping Services Inc. is a locally operated business providing dependable lawn care, seasonal cleanup, and outdoor property maintenance for homeowners, seniors, landlords, and property managers in Hamilton and surrounding areas. We keep outdoor spaces clean, safe, and well-maintained with consistent service and attention to detail.",
   },
   phone: {
     label: "+1 289-994-5553",
@@ -63,12 +63,12 @@ export const trustChips = [
 export const audienceCards = [
   {
     title: "Homeowners",
-    description: "Recurring lawn care and outdoor upkeep that keeps the property looking sharp.",
+    description: "Ideal for homeowners who want dependable care and a clean, professional finish.",
     icon: "leaf" as const,
   },
   {
     title: "Seniors",
-    description: "Respectful, dependable service that makes outdoor upkeep easier to manage.",
+    description: "Respectful, family-friendly service that keeps outdoor upkeep easier to manage.",
     icon: "shield" as const,
   },
   {
@@ -78,7 +78,7 @@ export const audienceCards = [
   },
   {
     title: "Property managers",
-    description: "Consistent care for managed spaces, shared grounds, and multi-property needs.",
+    description: "Priority-oriented care for managed spaces, shared grounds, and multi-property needs.",
     icon: "layers" as const,
   },
 ] as const;
@@ -86,48 +86,51 @@ export const audienceCards = [
 export const serviceCards = [
   {
     slug: "lawn-care",
+    emoji: "🌿",
     title: "Lawn care",
     eyebrow: "Recurring core service",
     summary:
-      "Lawn mowing, edging, and trimming for properties that need a clean, consistent finish.",
+      "Lawn mowing, edging, and trimming delivered with a clean, professional finish.",
     detail:
-      "Keep pathways defined, turf tidy, and curb appeal predictable through consistent recurring visits.",
+      "Keep pathways defined, turf tidy, and curb appeal consistent through dependable recurring visits.",
     bullets: [
-      "Lawn mowing and crisp perimeter trimming",
-      "Edging to keep walkways and beds defined",
-      "Clean finish that respects the property",
+      "Lawn mowing",
+      "Edging & trimming",
+      "Clean, professional finish",
     ],
     href: "/?service=lawn-care#quote-form",
     icon: "leaf" as const,
   },
   {
     slug: "seasonal-cleanup",
+    emoji: "🍂",
     title: "Seasonal cleanup",
     eyebrow: "Spring and fall resets",
     summary:
-      "Leaf removal, debris clearing, and spring or fall yard cleanup for safer, tidier outdoor spaces.",
+      "Leaf removal, spring and fall yard cleanup, and debris clearing for safer, tidier outdoor spaces.",
     detail:
       "Reset properties between seasons without forcing a long contract or unsupported service bundle.",
     bullets: [
-      "Leaf removal and debris clearing",
-      "Spring and fall yard cleanups",
-      "Green waste removal where needed",
+      "Leaf removal",
+      "Spring & fall yard cleanup",
+      "Debris clearing",
     ],
     href: "/?service=seasonal-cleanup#quote-form",
     icon: "wind" as const,
   },
   {
     slug: "property-maintenance",
+    emoji: "🏡",
     title: "Property maintenance",
     eyebrow: "Flexible recurring upkeep",
     summary:
-      "Ongoing outdoor upkeep for homes, rentals, and managed properties that need dependable attention.",
+      "General outdoor upkeep, green waste removal, and ongoing maintenance services.",
     detail:
-      "A maintenance plan shaped around property size, visit frequency, and the level of care required.",
+      "A maintenance plan shaped around property size, service frequency, and the level of care required.",
     bullets: [
-      "Ongoing upkeep for residential and commercial properties",
-      "Scope tailored to landlords and property managers",
-      "Custom care rhythm instead of generic flat-rate packages",
+      "General outdoor upkeep",
+      "Green waste removal",
+      "Ongoing maintenance services",
     ],
     href: "/?service=property-maintenance#quote-form",
     icon: "layers" as const,
@@ -136,53 +139,55 @@ export const serviceCards = [
 
 export const reliabilityPoints = [
   {
-    title: "Dependable scheduling",
+    title: "Reliable service",
     description:
-      "Scheduled visits, clear communication, and reliable follow-through help keep outdoor upkeep predictable.",
+      "Reliable service and consistent quality from the first visit onward.",
     icon: "clock" as const,
   },
   {
-    title: "Respect for the property",
+    title: "Respectful care",
     description:
-      "Every visit is handled with care, from tidy work areas to a clean, finished look.",
+      "Respectful, family-friendly care with clean, organized work every time.",
     icon: "shield" as const,
   },
   {
-    title: "Honest quoting",
+    title: "Trusted business",
     description:
-      "Quotes are based on the property, the visit frequency, and the level of care required.",
+      "Trusted, registered business you can feel confident working with.",
     icon: "spark" as const,
   },
   {
-    title: "Local service",
+    title: "Consistent quality",
     description:
-      "Hamilton-focused service for homeowners, seniors, landlords, and property managers.",
+      "Attention to detail and dependable follow-through that keeps outdoor spaces well-maintained.",
     icon: "map" as const,
   },
 ];
 
 export const packageCards = [
   {
+    emoji: "🏡",
     name: "Essential Care Package",
     audience: "Ideal for homeowners and seniors",
     summary:
-      "Recurring lawn care for homes that need steady, dependable upkeep through the growing season.",
+      "Bi-weekly lawn care and light maintenance for properties that need reliable seasonal upkeep.",
     bullets: [
-      "Recurring lawn care schedule",
-      "Edging and trimming as needed",
-      "Custom quote based on property size and scope",
+      "Bi-weekly lawn care",
+      "Light maintenance",
+      "Ideal for homeowners & seniors",
     ],
     href: "/?service=lawn-care#quote-form",
   },
   {
+    emoji: "🏢",
     name: "Property Manager Package",
     audience: "Recurring care for landlords and managed sites",
     summary:
-      "Recurring exterior maintenance for rental and managed properties that need reliable, predictable service.",
+      "Recurring lawn maintenance with priority service for rental and managed properties.",
     bullets: [
       "Recurring lawn maintenance",
-      "Service planning for rentals and managed spaces",
-      "Custom scope for single-site or multi-property needs",
+      "Priority service",
+      "Ideal for landlords & multi-property clients",
     ],
     href: "/?service=property-maintenance#quote-form",
   },
@@ -287,43 +292,43 @@ export const aboutHighlights = [
   {
     title: "Locally operated",
     description:
-      "Hamilton-area service focused on clean, safe, well-maintained outdoor spaces.",
+      "A locally operated business dedicated to reliable, professional outdoor property care.",
     icon: "map" as const,
   },
   {
     title: "Attention to detail",
     description:
-      "Careful work, tidy finishes, and no rushed jobs or cut corners.",
+      "We don’t rush jobs or cut corners, and every visit is handled with care.",
     icon: "check" as const,
   },
   {
-    title: "Easy to work with",
+    title: "Consistent quality",
     description:
-      "Clear communication and a simple quote process from the first call onward.",
+      "Respect for your property and consistent quality are part of every service.",
     icon: "phone" as const,
   },
 ];
 
 export const contactCards = [
   {
-    title: "Call directly",
-    description: "Call for a fast response and a straightforward quote conversation.",
+    emoji: "📞",
+    title: "Phone",
+    description: "Call or message today — fast response guaranteed.",
     value: siteConfig.phone.label,
     href: siteConfig.phone.href,
-    icon: "phone" as const,
   },
   {
-    title: "Email for project notes",
-    description: "Useful for photos, notes, and any details that help before the callback.",
+    emoji: "📧",
+    title: "Email",
+    description: "Use email for project notes and any details you want to send ahead of the callback.",
     value: siteConfig.email.label,
     href: siteConfig.email.href,
-    icon: "mail" as const,
   },
   {
+    emoji: "📍",
     title: "Service area",
-    description: "Hamilton and surrounding residential and commercial areas.",
+    description: "Proudly serving Hamilton and surrounding residential and commercial areas.",
     value: siteConfig.location.summary,
     href: undefined,
-    icon: "map" as const,
   },
 ];

@@ -31,7 +31,7 @@ type HomePageProps = {
 export const metadata = createPageMetadata({
   title: "Hamilton lawn care, cleanup, and property maintenance",
   description:
-    "Thandy Landscaping Services Inc. provides dependable lawn care, seasonal cleanup, and property maintenance across Hamilton and surrounding areas.",
+    "Thandy Landscaping Services Inc. is a locally operated business providing dependable lawn care, seasonal cleanup, and outdoor property maintenance in Hamilton and surrounding areas.",
   path: "/",
 });
 
@@ -60,12 +60,12 @@ const aboutMedia = {
 } as const;
 
 const marqueeItems = [
-  "Hamilton lawn care",
-  "Seasonal cleanup",
-  "Property maintenance",
-  "Dependable scheduling",
-  "Respectful visits",
-  "Fast local quotes",
+  "Lawn mowing, edging & trimming",
+  "Spring and fall cleanup",
+  "Debris clearing",
+  "Green waste removal",
+  "Reliable service and consistent quality",
+  "Trusted, registered business",
 ] as const;
 
 export default async function HomePage({ searchParams }: HomePageProps) {
@@ -120,10 +120,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   </div>
                   <div className="mt-8 rounded-[1.9rem] border border-white/10 bg-white/6 px-5 py-5">
                     <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--brand-green-100)]">
-                      Straightforward first step
+                      Get a free quote
                     </p>
                     <p className="mt-3 max-w-xl text-sm leading-6 text-white/72 sm:text-base">
-                      Start with the property details, get a tailored scope, and move quickly into scheduling without a drawn-out sales process.
+                      Every property is different — we provide custom quotes based on your needs.
                     </p>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                           Service area
                         </p>
                         <p className="mt-3 text-sm leading-6 text-white/76">
-                          Hamilton plus surrounding residential and commercial areas, with custom scopes based on property size and care level.
+                          Proudly serving Hamilton and surrounding residential and commercial areas.
                         </p>
                       </div>
                     </TiltCard>
@@ -160,10 +160,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                     <TiltCard className="h-full" intensity={7} lift={-6}>
                       <div className="h-full rounded-[1.75rem] border border-white/12 bg-[rgb(5_8_5/42%)] px-5 py-4 backdrop-blur">
                         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--brand-green-100)]">
-                          Calm operating standard
+                          Reliable Property Care
                         </p>
                         <p className="mt-3 text-sm leading-6 text-white/72">
-                          {siteConfig.tagline} Clean finishes, reliable scheduling, and a simple quote path.
+                          {siteConfig.tagline}
                         </p>
                       </div>
                     </TiltCard>
@@ -205,20 +205,22 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               ))}
             </div>
           </div>
-          <div className="mt-5 overflow-hidden rounded-full border border-[rgb(17_22_17/8%)] bg-white/84 py-3 shadow-[var(--shadow-soft)]">
-            <div className="motion-marquee flex w-max gap-3 pr-3">
-              {Array.from({ length: 2 }).flatMap((_, repeatIndex) =>
-                marqueeItems.map((item, itemIndex) => (
-                  <div
-                    key={`${repeatIndex}-${itemIndex}-${item}`}
-                    className="inline-flex items-center gap-3 rounded-full border border-[rgb(17_22_17/6%)] bg-[var(--surface-base)] px-4 py-2 text-sm font-medium text-[var(--ink-900)]"
-                  >
-                    <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--brand-green-500)] shadow-[0_0_0_5px_rgb(126_217_87/14%)]" />
-                    <span>{item}</span>
-                  </div>
-                )),
-              )}
-            </div>
+        </div>
+        <div className="relative left-1/2 mt-5 w-screen -translate-x-1/2 overflow-hidden border-y border-[rgb(17_22_17/8%)] bg-white/84 py-3 shadow-[var(--shadow-soft)]">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-[linear-gradient(90deg,var(--surface-base),rgb(252_252_251/0))] sm:w-24" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-[linear-gradient(270deg,var(--surface-base),rgb(252_252_251/0))] sm:w-24" />
+          <div className="motion-marquee flex w-max gap-3 px-4 pr-3 sm:px-6 lg:px-8">
+            {Array.from({ length: 2 }).flatMap((_, repeatIndex) =>
+              marqueeItems.map((item, itemIndex) => (
+                <div
+                  key={`${repeatIndex}-${itemIndex}-${item}`}
+                  className="inline-flex items-center gap-3 rounded-full border border-[rgb(17_22_17/6%)] bg-[var(--surface-base)] px-4 py-2 text-sm font-medium text-[var(--ink-900)]"
+                >
+                  <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--brand-green-500)] shadow-[0_0_0_5px_rgb(126_217_87/14%)]" />
+                  <span>{item}</span>
+                </div>
+              )),
+            )}
           </div>
         </div>
       </section>
@@ -229,10 +231,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       >
         <div className="page-shell">
           <SectionHeading
-            description="From recurring lawn care to seasonal cleanups and ongoing maintenance, Thandy focuses on the outdoor work Hamilton-area properties need most."
+            description="We offer a range of landscaping and maintenance services designed to keep your outdoor space looking its best."
             eyebrow="Services"
             size="wide"
-            title="Professional lawn care, seasonal cleanup, and property maintenance for Hamilton-area properties."
+            title="Our services"
           />
           <div className="mt-14 grid gap-6 xl:grid-cols-3">
             {serviceCards.map((service, index) => (
@@ -271,13 +273,25 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                       <span className={index === 1 ? "section-kicker" : "section-kicker section-kicker-light"}>
                         {service.eyebrow}
                       </span>
-                      <h2
-                        className={`mt-5 text-3xl font-semibold tracking-[-0.05em] ${
-                          index === 1 ? "text-white" : "text-[var(--ink-900)]"
-                        }`}
-                      >
-                        {service.title}
-                      </h2>
+                      <div className="mt-5 flex items-center gap-3">
+                        <span
+                          aria-hidden="true"
+                          className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl text-xl ${
+                            index === 1
+                              ? "bg-[rgb(126_217_87/18%)]"
+                              : "bg-[rgb(126_217_87/12%)] ring-1 ring-[rgb(126_217_87/20%)]"
+                          }`}
+                        >
+                          {service.emoji}
+                        </span>
+                        <h2
+                          className={`text-3xl font-semibold tracking-[-0.05em] ${
+                            index === 1 ? "text-white" : "text-[var(--ink-900)]"
+                          }`}
+                        >
+                          {service.title}
+                        </h2>
+                      </div>
                       <p
                         className={`mt-4 text-base leading-7 ${
                           index === 1 ? "text-white/76" : "text-[var(--text-secondary)]"
@@ -325,10 +339,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       >
         <div className="page-shell">
           <SectionHeading
-            description="Every property is different. These pricing factors and package examples show how the scope is built before you request a quote."
-            eyebrow="Pricing"
+            description="Our pricing is based on property size, service frequency, and the level of care required. We focus on delivering reliable, high-quality service — not rushed or low-quality work."
+            eyebrow="Pricing guide"
             size="wide"
-            title="Straightforward packages and the factors that shape your quote."
+            title="Maintenance packages and custom quotes."
           />
           <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {pricingFactors.map((factor, index) => (
@@ -350,7 +364,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <FadeIn key={pkg.name} delay={index * 0.06}>
                 <TiltCard className="h-full" intensity={6}>
                   <article className="panel h-full px-8 py-8">
-                    <span className="section-kicker section-kicker-light">{pkg.name}</span>
+                    <div className="flex items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgb(126_217_87/12%)] text-xl ring-1 ring-[rgb(126_217_87/20%)]"
+                      >
+                        {pkg.emoji}
+                      </span>
+                      <span className="section-kicker section-kicker-light">{pkg.name}</span>
+                    </div>
                     <h3 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-[var(--ink-900)]">
                       {pkg.audience}
                     </h3>
@@ -381,17 +403,17 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <div className="band-gradient band-gradient-animated mt-10 rounded-[2.2rem] px-6 py-6 text-white shadow-[var(--shadow-card)] sm:px-8 sm:py-7">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl">
-                  <p className="section-kicker">No bait pricing</p>
+                  <p className="section-kicker">Get a free quote</p>
                   <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.05em] sm:text-4xl">
-                    Clear pricing starts with the right scope, the right service plan, and a quick conversation.
+                    Every property is different — we provide custom quotes based on your needs.
                   </h2>
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <ButtonLink href="/#quote-form" trailingArrow>
-                    Start the quote
+                    Get a free quote
                   </ButtonLink>
                   <ButtonLink href={siteConfig.phone.href} icon="phone" variant="secondary">
-                    Call for a fast response
+                    Call or message today
                   </ButtonLink>
                 </div>
               </div>
@@ -406,21 +428,21 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       >
         <div className="page-shell">
           <SectionHeading
-            description="Thandy is built around straightforward communication, tidy work, and dependable service that respects the property."
-            eyebrow="About Thandy"
+            description="Thandy Landscaping Services Inc. is a locally operated business dedicated to providing reliable, professional, and high-quality outdoor property care."
+            eyebrow="About us"
             light
             size="wide"
-            title="A Hamilton-area team known for dependable service and respectful property care."
+            title="Who we are"
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch">
             <FadeIn className="h-full">
               <article className="panel-dark flex h-full flex-col rounded-[2.2rem] px-7 py-7">
-                <p className="section-kicker">What stays consistent</p>
+                <p className="section-kicker">Our approach</p>
                 <h3 className="mt-5 max-w-2xl text-balance text-4xl font-semibold tracking-[-0.05em]">
-                  Local, tidy, and dependable from the first call to the finished visit.
+                  We don’t rush jobs or cut corners.
                 </h3>
                 <p className="mt-5 max-w-3xl text-base leading-7 text-white/74">
-                  Thandy keeps the process simple with clear communication, reliable scheduling, and outdoor spaces that look cared for after every visit.
+                  Every service is delivered with attention to detail, respect for your property, and consistent quality. We aim to build long-term relationships by being dependable and easy to work with.
                 </p>
                 <div className="mt-8 grid gap-4 sm:grid-cols-3">
                   {aboutHighlights.map((highlight) => (
@@ -472,10 +494,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <section className="section-space">
         <div className="page-shell">
           <SectionHeading
-            description="The process is simple: share the property details, receive a tailored quote, and confirm the service that fits your needs."
-            eyebrow="How it works"
+            description="Our pricing is based on property size, service frequency, and the level of care required. Contact us for a personalized quote."
+            eyebrow="Get a free quote"
             size="wide"
-            title="A simple quote process built to keep the first conversation clear and efficient."
+            title="Every property is different — we provide custom quotes based on your needs."
           />
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {processSteps.map((step, index) => (
@@ -503,10 +525,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 <div className="max-w-xl">
                   <p className="section-kicker section-kicker-light">FAQ</p>
                   <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.05em] text-[var(--ink-900)] sm:text-4xl">
-                    Common questions before you request a quote.
+                    Before and after results, service area, and common questions.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-[var(--text-secondary)]">
-                    A few quick answers on pricing, service area, and who Thandy works with.
+                    Real results. Real properties. Consistent, high-quality results you can trust, plus a few quick answers before you request a quote.
                   </p>
                   <div className="mt-6">
                     <ButtonLink href="/#quote-form" trailingArrow>
@@ -530,10 +552,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <div className="max-w-[58rem]">
               <span className="section-kicker">Get a free quote</span>
               <h2 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.06em] sm:text-6xl">
-                Put the property details in one place and keep the callback simple.
+                Get a free quote
               </h2>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-white/78">
-                Share the location, service needed, and any useful notes, and Thandy can shape the callback around the property instead of forcing a long intake.
+                Every property is different — we provide custom quotes based on your needs.
               </p>
             </div>
           </FadeIn>
@@ -555,8 +577,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <FadeIn key={card.title} className="h-full" delay={0.12 + index * 0.04}>
                 <TiltCard className="h-full" intensity={6} lift={-5}>
                   <article className="flex h-full min-w-0 flex-col rounded-[1.75rem] border border-white/10 bg-white/6 px-5 py-5">
-                    <div className="rounded-2xl bg-[rgb(126_217_87/18%)] p-3 text-[var(--brand-green-500)]">
-                      <Icon name={card.icon} />
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgb(126_217_87/18%)] text-xl">
+                      <span aria-hidden="true" className="leading-none">
+                        {card.emoji}
+                      </span>
                     </div>
                     <p className="mt-4 text-sm font-semibold uppercase tracking-[0.16em] text-white/54">
                       {card.title}
@@ -585,14 +609,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 <div className="max-w-2xl">
                   <p className="section-kicker section-kicker-light">Quote form</p>
                   <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] text-[var(--ink-900)]">
-                    Share the details and keep the callback simple.
+                    Share the details for your quote request.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-[var(--text-secondary)]">
-                    The property location helps shape an accurate quote. If you prefer not to share the full address yet, a nearby intersection is enough for the first conversation.
+                    Name, phone, address, service needed, and a short message help us prepare a personalized quote.
                   </p>
                 </div>
                 <ButtonLink href={siteConfig.phone.href} icon="phone" variant="ghost">
-                  Call instead
+                  Call or message today
                 </ButtonLink>
               </div>
               <div className="mt-8">

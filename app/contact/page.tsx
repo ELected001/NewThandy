@@ -1,14 +1,17 @@
 import { permanentRedirect } from "next/navigation";
 
 type ContactPageProps = {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+  searchParams?: Promise<{
+    service?: string | string[];
+  }>;
 };
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
-  const service = typeof params.service === "string" ? params.service : null;
+  const requestedService = Array.isArray(params?.service)
+    ? params?.service[0]
+    : params?.service;
+  const query = requestedService ? `?service=${encodeURIComponent(requestedService)}` : "";
 
-  permanentRedirect(
-    service ? `/?service=${encodeURIComponent(service)}#quote-form` : "/#quote-form",
-  );
+  permanentRedirect(`/${query}#quote-form`);
 }

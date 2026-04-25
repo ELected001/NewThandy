@@ -28,10 +28,10 @@ export const defaultMetadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: absoluteUrl("/images/photography/hero-home.jpg"),
-        width: 1600,
-        height: 900,
-        alt: siteConfig.hero.title,
+        url: absoluteUrl("/images/brand/logo-black-green.png"),
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} logo`,
       },
     ],
   },
@@ -39,7 +39,7 @@ export const defaultMetadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} | Hamilton property care`,
     description: siteConfig.description,
-    images: [absoluteUrl("/images/photography/hero-home.jpg")],
+    images: [absoluteUrl("/images/brand/logo-black-green.png")],
   },
   applicationName: siteConfig.shortName,
   category: "home services",
@@ -49,7 +49,7 @@ export function createPageMetadata({
   title,
   description,
   path,
-  image = "/images/photography/hero-home.jpg",
+  image = "/images/brand/logo-black-green.png",
 }: PageMetadataOptions): Metadata {
   return {
     title,

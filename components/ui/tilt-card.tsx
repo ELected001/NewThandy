@@ -39,13 +39,9 @@ export function TiltCard({
 
   if (prefersReducedMotion) {
     return (
-      <motion.div
-        className={cn("relative h-full", className)}
-        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={{ scale: 1.01, y: lift }}
-      >
+      <div className={cn("relative h-full", className)}>
         {children}
-      </motion.div>
+      </div>
     );
   }
 

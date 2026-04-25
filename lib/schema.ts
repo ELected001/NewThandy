@@ -13,7 +13,7 @@ export function createProfessionalServiceSchema() {
     name: siteConfig.name,
     alternateName: siteConfig.legalName,
     url: siteConfig.url,
-    image: absoluteUrl("/images/photography/hero-home.jpg"),
+    image: absoluteUrl("/images/brand/logo-black-green.png"),
     telephone: siteConfig.phone.href.replace("tel:", ""),
     description: siteConfig.description,
     slogan: siteConfig.tagline,

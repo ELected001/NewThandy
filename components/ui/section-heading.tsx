@@ -29,7 +29,7 @@ export function SectionHeading({
       </span>
       <h2
         className={cn(
-          "mt-5 text-balance text-4xl font-semibold tracking-[-0.05em] sm:text-5xl lg:text-[3.5rem]",
+          "mt-5 text-balance text-4xl font-semibold sm:text-5xl lg:text-[3.5rem]",
           light ? "text-white" : "text-[var(--ink-900)]",
         )}
       >

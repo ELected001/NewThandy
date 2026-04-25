@@ -13,7 +13,7 @@ export default function NotFound() {
       <div className="page-shell">
         <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-[rgb(17_22_17/8%)] bg-white px-7 py-8 text-center shadow-[var(--shadow-card)]">
           <p className="section-kicker section-kicker-light">404</p>
-          <h1 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.06em] text-[var(--ink-900)] sm:text-6xl">
+          <h1 className="mt-6 text-balance text-5xl font-semibold text-[var(--ink-900)] sm:text-6xl">
             The page has gone missing, but the quote path is still easy.
           </h1>
           <p className="mt-6 text-lg leading-8 text-[var(--text-secondary)]">

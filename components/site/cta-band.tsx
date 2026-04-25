@@ -32,7 +32,7 @@ export function CtaBand({
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
             <div className="max-w-2xl">
               <span className="section-kicker">{eyebrow}</span>
-              <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
+              <h2 className="mt-5 text-balance text-4xl font-semibold sm:text-5xl">
                 {title}
               </h2>
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/76">

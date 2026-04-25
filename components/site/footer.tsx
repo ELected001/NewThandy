@@ -7,7 +7,6 @@ export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden bg-[var(--ink-950)] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/10" />
-      <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-[rgb(126_217_87/18%)] blur-[120px]" />
       <div className="page-shell section-space">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
           <div className="max-w-md">
@@ -25,15 +24,10 @@ export function SiteFooter() {
             </div>
           </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/42">
+            <p className="text-sm font-semibold uppercase text-white/42">
               Site
             </p>
             <ul className="mt-5 space-y-3 text-base text-white/76">
-              <li>
-                <Link className="transition hover:text-white" href="/">
-                  Home
-                </Link>
-              </li>
               {navigation.map((item) => (
                 <li key={item.href}>
                   <Link className="transition hover:text-white" href={item.href}>
@@ -44,16 +38,30 @@ export function SiteFooter() {
             </ul>
           </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/42">
+            <p className="text-sm font-semibold uppercase text-white/42">
               Contact
             </p>
             <ul className="mt-5 space-y-3 text-base text-white/76">
-              <li>{siteConfig.phone.label}</li>
-              <li>{siteConfig.email.label}</li>
+              <li>
+                <a className="transition hover:text-white" href={siteConfig.phone.href}>
+                  {siteConfig.phone.label}
+                </a>
+              </li>
+              <li>
+                <a className="transition hover:text-white" href={siteConfig.email.href}>
+                  {siteConfig.email.label}
+                </a>
+              </li>
               <li>{siteConfig.location.summary}</li>
               <li>Hamilton and surrounding residential and commercial areas</li>
             </ul>
           </div>
+        </div>
+        <div className="mt-10 border-t border-white/10 pt-6 text-sm leading-6 text-white/52">
+          <p>
+            &copy; {new Date().getFullYear()} {siteConfig.legalName}. Quote-led lawn care,
+            leaf cleaning, and property maintenance.
+          </p>
         </div>
       </div>
     </footer>

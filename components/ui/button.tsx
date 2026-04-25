@@ -22,7 +22,7 @@ export function buttonClassName(
   className?: string,
 ) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-[0.01em] transition duration-200 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-green-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+    "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition duration-200 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-green-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
   const sizes = {
     default: "h-[3.25rem] px-5 text-[0.96rem]",
     small: "h-11 px-4 text-[0.92rem]",

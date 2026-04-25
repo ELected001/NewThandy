@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icons";
 import { navigation, siteConfig } from "@/content/site";
@@ -12,27 +11,49 @@ import { Logo } from "@/components/site/logo";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [menuState, setMenuState] = useState({ open: false, pathname });
+  const open = menuState.pathname === pathname ? menuState.open : false;
+  const setOpenForPath = useCallback(
+    (nextOpen: boolean) => setMenuState({ open: nextOpen, pathname }),
+    [pathname],
+  );
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpenForPath(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, setOpenForPath]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div className="page-shell pt-3 sm:pt-4">
-        <div className="rounded-[1.75rem] border border-white/10 bg-[rgb(5_8_5/78%)] px-4 py-2.5 shadow-[var(--shadow-card)] backdrop-blur-xl sm:px-5">
+    <header className="fixed inset-x-0 top-0 z-50 px-3 sm:px-4">
+      <div className="mx-auto w-full max-w-[1320px] pt-3 sm:pt-4">
+        <div className="rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white px-3 py-2 shadow-[var(--shadow-soft)] sm:px-4">
           <div className="flex items-center justify-between gap-4">
-            <Logo />
+            <Logo size="header" variant="dark" />
             <nav
               aria-label="Primary"
-              className="hidden items-center gap-7 text-[0.95rem] text-white/78 lg:flex"
+              className="hidden items-center gap-6 text-[0.92rem] font-medium text-[var(--text-secondary)] lg:flex xl:gap-7"
             >
               {navigation.map((item) => {
-                const active = !item.href.includes("#") && pathname === item.href;
+                const active = pathname === "/" && item.href === "/#home";
 
                 return (
                   <Link
                     key={item.href}
+                    aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative py-2 transition hover:text-white",
-                      active && "text-white",
+                      "relative py-2 transition hover:text-[var(--ink-950)]",
+                      active && "text-[var(--ink-950)]",
                     )}
                     href={item.href}
                   >
@@ -47,16 +68,17 @@ export function SiteHeader() {
                 );
               })}
             </nav>
-            <div className="hidden items-center gap-3 md:flex">
+            <div className="hidden items-center gap-2 md:flex">
               <ButtonLink
                 href={siteConfig.phone.href}
                 icon="phone"
+                className="h-10 px-3.5"
                 size="small"
-                variant="secondary"
+                variant="ghost"
               >
                 Call
               </ButtonLink>
-              <ButtonLink href="/#quote-form" size="small" trailingArrow>
+              <ButtonLink className="h-10 px-4" href="/#quote-form" size="small" trailingArrow>
                 Free quote
               </ButtonLink>
             </div>
@@ -68,8 +90,8 @@ export function SiteHeader() {
                 aria-controls="mobile-nav"
                 aria-expanded={open}
                 aria-label={open ? "Close menu" : "Open menu"}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white transition hover:bg-white/14"
-                onClick={() => setOpen((value) => !value)}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgb(17_22_17/10%)] bg-[var(--surface-soft)] text-[var(--ink-950)] transition hover:bg-white"
+                onClick={() => setOpenForPath(!open)}
                 type="button"
               >
                 {open ? (
@@ -96,46 +118,40 @@ export function SiteHeader() {
               </button>
             </div>
           </div>
-          <AnimatePresence>
-            {open ? (
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 border-t border-white/10 pt-4 md:hidden"
-                exit={{ opacity: 0, y: -12 }}
-                id="mobile-nav"
-                initial={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <nav aria-label="Mobile navigation" className="grid gap-2">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.href}
-                      className={cn(
-                        "rounded-2xl px-4 py-3 text-base font-medium text-white/80 transition hover:bg-white/8 hover:text-white",
-                        !item.href.includes("#") && pathname === item.href && "bg-white/8 text-white",
-                      )}
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </nav>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <ButtonLink href={siteConfig.phone.href} icon="phone" variant="secondary">
-                    {siteConfig.phone.label}
-                  </ButtonLink>
-                  <ButtonLink href={siteConfig.email.href} icon="mail" variant="ghost">
-                    Email us
-                  </ButtonLink>
-                </div>
-                <div className="mt-4 flex items-start gap-3 rounded-[1.5rem] border border-white/10 bg-white/6 px-4 py-3 text-sm text-white/72">
-                  <Icon className="mt-0.5 text-[var(--brand-green-500)]" name="map" />
-                  <span>Serving Hamilton and surrounding residential and commercial areas.</span>
-                </div>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
+          {open ? (
+            <div className="mt-4 border-t border-[rgb(17_22_17/8%)] pt-4 md:hidden" id="mobile-nav">
+              <nav aria-label="Mobile navigation" className="grid gap-2">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.href}
+                    aria-current={pathname === "/" && item.href === "/#home" ? "page" : undefined}
+                    className={cn(
+                      "rounded-[1rem] px-4 py-3 text-base font-medium text-[var(--text-secondary)] transition hover:bg-[var(--surface-soft)] hover:text-[var(--ink-950)]",
+                      pathname === "/" &&
+                        item.href === "/#home" &&
+                        "bg-[var(--surface-soft)] text-[var(--ink-950)]",
+                    )}
+                    href={item.href}
+                    onClick={() => setOpenForPath(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <ButtonLink href={siteConfig.phone.href} icon="phone" variant="ghost">
+                  {siteConfig.phone.label}
+                </ButtonLink>
+                <ButtonLink href={siteConfig.email.href} icon="mail" variant="ghost">
+                  Email us
+                </ButtonLink>
+              </div>
+              <div className="mt-4 flex items-start gap-3 rounded-[1rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-soft)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+                <Icon className="mt-0.5 text-[var(--brand-green-500)]" name="map" />
+                <span>Serving Hamilton and surrounding residential and commercial areas.</span>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </header>

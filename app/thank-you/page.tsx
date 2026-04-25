@@ -7,11 +7,17 @@ type ThankYouPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const metadata = createPageMetadata({
-  title: "Thank you",
-  description: "Your quote request has been received by Thandy Landscaping Services Inc.",
-  path: "/thank-you",
-});
+export const metadata = {
+  ...createPageMetadata({
+    title: "Thank you",
+    description: "Your quote request has been received by Thandy Landscaping Services Inc.",
+    path: "/thank-you",
+  }),
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const serviceLabels: Record<string, string> = {
   "lawn-care": "lawn care",
@@ -32,7 +38,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
           <div className="rounded-2xl bg-[rgb(126_217_87/18%)] p-3 text-[var(--brand-green-500)] w-fit">
             <Icon name="check" />
           </div>
-          <h1 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.06em] sm:text-6xl">
+          <h1 className="mt-6 text-balance text-5xl font-semibold sm:text-6xl">
             Thanks. The request is in.
           </h1>
           <p className="mt-6 text-lg leading-8 text-white/76">

@@ -11,7 +11,7 @@ export function FAQ({ items }: { items: readonly FaqItem[] }) {
           key={item.question}
           className="panel overflow-hidden px-6 py-5 [&_summary::-webkit-details-marker]:hidden"
         >
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold tracking-[-0.02em] text-[var(--ink-900)]">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-[var(--ink-900)]">
             <span>{item.question}</span>
             <span className="text-[var(--brand-green-600)]">+</span>
           </summary>

@@ -26,10 +26,11 @@ type QuoteFormProps = {
 };
 
 export function QuoteForm({ service }: QuoteFormProps) {
-  const initialService =
-    typeof service === "string" && quoteServiceOptions.includes(service as never)
-      ? service
-      : "";
+  const requestedService = typeof service === "string" ? service : "";
+  const initialService = quoteServiceOptions.includes(requestedService as never)
+    ? requestedService
+    : "";
+
   const [state, formAction] = useActionState(submitQuoteRequest, {
     ...initialQuoteFormState,
     values: {
@@ -37,6 +38,7 @@ export function QuoteForm({ service }: QuoteFormProps) {
       serviceNeeded: initialService,
     },
   });
+  const selectedService = state.values.serviceNeeded || initialService;
 
   return (
     <form action={formAction} className="space-y-5" noValidate>
@@ -46,6 +48,7 @@ export function QuoteForm({ service }: QuoteFormProps) {
             Name
           </label>
           <input
+            aria-describedby={state.fieldErrors.name ? "name-error" : undefined}
             aria-invalid={Boolean(state.fieldErrors.name)}
             autoComplete="name"
             className="input-field"
@@ -57,7 +60,7 @@ export function QuoteForm({ service }: QuoteFormProps) {
             type="text"
           />
           {state.fieldErrors.name ? (
-            <p className="text-sm text-rose-600">{state.fieldErrors.name}</p>
+            <p className="text-sm text-rose-600" id="name-error">{state.fieldErrors.name}</p>
           ) : null}
         </div>
         <div className="space-y-2">
@@ -65,18 +68,20 @@ export function QuoteForm({ service }: QuoteFormProps) {
             Phone
           </label>
           <input
+            aria-describedby={state.fieldErrors.phone ? "phone-error" : undefined}
             aria-invalid={Boolean(state.fieldErrors.phone)}
             autoComplete="tel"
             className="input-field"
             data-invalid={Boolean(state.fieldErrors.phone)}
             defaultValue={state.values.phone}
             id="phone"
+            inputMode="tel"
             name="phone"
             placeholder="+1 289-994-5553"
             type="tel"
           />
           {state.fieldErrors.phone ? (
-            <p className="text-sm text-rose-600">{state.fieldErrors.phone}</p>
+            <p className="text-sm text-rose-600" id="phone-error">{state.fieldErrors.phone}</p>
           ) : null}
         </div>
       </div>
@@ -85,6 +90,7 @@ export function QuoteForm({ service }: QuoteFormProps) {
           Property address or nearest intersection
         </label>
         <input
+          aria-describedby={state.fieldErrors.serviceAddress ? "serviceAddress-error" : undefined}
           aria-invalid={Boolean(state.fieldErrors.serviceAddress)}
           autoComplete="street-address"
           className="input-field"
@@ -92,11 +98,11 @@ export function QuoteForm({ service }: QuoteFormProps) {
           defaultValue={state.values.serviceAddress}
           id="serviceAddress"
           name="serviceAddress"
-          placeholder="A full address is helpful, but a nearby intersection is fine for the first call."
+          placeholder="Address or nearby intersection"
           type="text"
         />
         {state.fieldErrors.serviceAddress ? (
-          <p className="text-sm text-rose-600">{state.fieldErrors.serviceAddress}</p>
+          <p className="text-sm text-rose-600" id="serviceAddress-error">{state.fieldErrors.serviceAddress}</p>
         ) : null}
       </div>
       <div className="space-y-2">
@@ -105,11 +111,13 @@ export function QuoteForm({ service }: QuoteFormProps) {
         </label>
         <div className="relative">
           <select
+            aria-describedby={state.fieldErrors.serviceNeeded ? "serviceNeeded-error" : undefined}
             aria-invalid={Boolean(state.fieldErrors.serviceNeeded)}
             className="select-field"
             data-invalid={Boolean(state.fieldErrors.serviceNeeded)}
-            defaultValue={state.values.serviceNeeded}
+            defaultValue={selectedService}
             id="serviceNeeded"
+            key={selectedService || "empty-service"}
             name="serviceNeeded"
           >
             <option value="">Choose a service</option>
@@ -135,7 +143,7 @@ export function QuoteForm({ service }: QuoteFormProps) {
           </svg>
         </div>
         {state.fieldErrors.serviceNeeded ? (
-          <p className="text-sm text-rose-600">{state.fieldErrors.serviceNeeded}</p>
+          <p className="text-sm text-rose-600" id="serviceNeeded-error">{state.fieldErrors.serviceNeeded}</p>
         ) : null}
       </div>
       <div className="space-y-2">
@@ -143,24 +151,26 @@ export function QuoteForm({ service }: QuoteFormProps) {
           Message
         </label>
         <textarea
+          aria-describedby={state.fieldErrors.message ? "message-error" : undefined}
           aria-invalid={Boolean(state.fieldErrors.message)}
           className="textarea-field"
           data-invalid={Boolean(state.fieldErrors.message)}
           defaultValue={state.values.message}
           id="message"
           name="message"
-          placeholder="Tell us what needs attention, when you need it, and anything useful for the first callback."
+          placeholder="Service notes, timing, access, or cleanup details."
         />
         {state.fieldErrors.message ? (
-          <p className="text-sm text-rose-600">{state.fieldErrors.message}</p>
+          <p className="text-sm text-rose-600" id="message-error">{state.fieldErrors.message}</p>
         ) : null}
       </div>
       <div aria-hidden="true" className="hidden">
         <label htmlFor="company">Company</label>
-        <input autoComplete="organization" id="company" name="company" tabIndex={-1} type="text" />
+        <input autoComplete="off" id="company" name="company" tabIndex={-1} type="text" />
       </div>
-      <label className="flex items-start gap-3 rounded-[1.4rem] bg-[var(--surface-soft)] px-4 py-4 text-sm leading-6 text-[var(--text-secondary)]">
+      <label className="flex items-start gap-3 rounded-[1rem] bg-[var(--surface-soft)] px-4 py-4 text-sm leading-6 text-[var(--text-secondary)]">
         <input
+          aria-describedby={state.fieldErrors.consent ? "consent-error" : undefined}
           className="mt-1 h-4 w-4 rounded border-[var(--border-medium)] text-[var(--brand-green-600)]"
           defaultChecked={state.values.consent}
           id="consent"
@@ -168,22 +178,27 @@ export function QuoteForm({ service }: QuoteFormProps) {
           type="checkbox"
         />
         <span>
-          I agree that Thandy can contact me by phone or email about this quote request.
-          We only use the details above to price and coordinate the job.
+          I agree that Thandy can contact me by phone about this quote request.
+          Thandy uses these details to price and coordinate the job. Submitting opens a
+          Google Forms intake page with your name, phone, property location, service
+          choice, and message prefilled.
         </span>
       </label>
       {state.fieldErrors.consent ? (
-        <p className="text-sm text-rose-600">{state.fieldErrors.consent}</p>
+        <p className="text-sm text-rose-600" id="consent-error">{state.fieldErrors.consent}</p>
       ) : null}
       {state.formError ? (
-        <p className={cn("text-sm", state.fieldErrors.company ? "sr-only" : "text-rose-600")}>
+        <p
+          aria-live="polite"
+          className={cn("text-sm", state.fieldErrors.company ? "sr-only" : "text-rose-600")}
+        >
           {state.formError}
         </p>
       ) : null}
       <div className="flex flex-wrap items-center gap-4">
         <SubmitButton />
         <p className="text-sm leading-6 text-[var(--text-muted)]">
-          Submitting opens the current online intake form to finish your request.
+          Submitting opens the current Google Forms intake page to finish your request.
         </p>
       </div>
     </form>

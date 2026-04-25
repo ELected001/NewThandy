@@ -4,10 +4,17 @@ import { cn } from "@/lib/utils";
 
 type LogoProps = {
   variant?: "light" | "dark";
+  size?: "header" | "footer";
   className?: string;
+  priority?: boolean;
 };
 
-export function Logo({ variant = "light", className }: LogoProps) {
+export function Logo({
+  variant = "light",
+  size = "footer",
+  className,
+  priority = false,
+}: LogoProps) {
   return (
     <Link
       aria-label="Go to Thandy home"
@@ -16,9 +23,12 @@ export function Logo({ variant = "light", className }: LogoProps) {
     >
       <Image
         alt="Thandy Landscaping Services Inc."
-        className="h-auto w-[136px] sm:w-[156px]"
+        className={cn(
+          "h-auto",
+          size === "header" ? "w-[122px] sm:w-[142px]" : "w-[136px] sm:w-[156px]",
+        )}
         height={106}
-        priority
+        priority={priority}
         src={
           variant === "light"
             ? "/images/brand/logo-white-green.png"

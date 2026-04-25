@@ -24,5 +24,18 @@ export async function submitQuoteRequest(
     };
   }
 
-  redirect(buildGoogleFormPrefillUrl(result.data));
+  let redirectUrl: string;
+
+  try {
+    redirectUrl = buildGoogleFormPrefillUrl(result.data);
+  } catch {
+    return {
+      values: result.data,
+      fieldErrors: {},
+      formError:
+        "The online intake form is not configured yet. Please call Thandy to request your quote.",
+    };
+  }
+
+  redirect(redirectUrl);
 }

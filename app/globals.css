@@ -95,6 +95,8 @@
 
   .section-kicker {
     @apply inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[0.75rem] font-semibold uppercase tracking-[0.08em];
+    width: fit-content;
+    align-self: flex-start;
     border-color: rgb(255 255 255 / 12%);
     background: rgb(255 255 255 / 10%);
     color: var(--text-inverse);
@@ -104,6 +106,60 @@
     border-color: rgb(126 217 87 / 24%);
     background: rgb(126 217 87 / 12%);
     color: #335729;
+  }
+
+  .site-header-panel {
+    background: rgb(255 255 255 / 90%);
+    backdrop-filter: blur(22px) saturate(1.12);
+    transition:
+      border-color 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out),
+      background 220ms var(--ease-out);
+  }
+
+  .site-header-panel:hover {
+    border-color: rgb(126 217 87 / 22%);
+    box-shadow:
+      0 18px 48px rgb(9 11 9 / 10%),
+      0 0 0 1px rgb(255 255 255 / 70%) inset;
+  }
+
+  .button-effect {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .button-effect > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .button-effect::before {
+    content: "";
+    position: absolute;
+    inset: -45% -30%;
+    z-index: 0;
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 38%) 50%, transparent 70%);
+    opacity: 0;
+    transform: translateX(-72%) skewX(-18deg);
+    transition:
+      opacity 220ms var(--ease-out),
+      transform 620ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .button-effect:hover::before {
+    opacity: 1;
+    transform: translateX(72%) skewX(-18deg);
+  }
+
+  .button-effect svg {
+    transition: transform 220ms var(--ease-out);
+  }
+
+  .button-effect:hover svg:last-child {
+    transform: translateX(2px);
   }
 
   .panel {
@@ -173,6 +229,214 @@
     background: var(--ink-950);
   }
 
+  .hero-media-effect,
+  .effect-media-frame,
+  .effect-chip,
+  .effect-glass,
+  .effect-card {
+    transform: translateZ(0);
+  }
+
+  .hero-media-effect {
+    isolation: isolate;
+  }
+
+  .hero-media-effect::before {
+    content: "";
+    position: absolute;
+    inset: 1rem;
+    z-index: 12;
+    border: 1px solid rgb(255 255 255 / 13%);
+    border-radius: 1.05rem;
+    pointer-events: none;
+  }
+
+  .hero-media-effect::after {
+    content: "";
+    position: absolute;
+    inset: -28% -36%;
+    z-index: 14;
+    background: linear-gradient(105deg, transparent 36%, rgb(255 255 255 / 16%) 48%, transparent 62%);
+    mix-blend-mode: screen;
+    opacity: 0.56;
+    transform: translateX(-54%) rotate(10deg);
+    animation: thandy-light-sweep 8s var(--ease-out) infinite;
+    pointer-events: none;
+  }
+
+  .hero-media-image {
+    animation: thandy-hero-drift 16s ease-in-out infinite alternate;
+    transform-origin: 54% 50%;
+    will-change: transform;
+  }
+
+  .effect-glass {
+    overflow: hidden;
+    box-shadow:
+      0 20px 46px rgb(0 0 0 / 18%),
+      0 1px 0 rgb(255 255 255 / 18%) inset;
+  }
+
+  .effect-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgb(255 255 255 / 18%), transparent 42%);
+    opacity: 0.62;
+    pointer-events: none;
+  }
+
+  .effect-chip {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      border-color 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out),
+      transform 220ms var(--ease-out);
+  }
+
+  .effect-chip::before {
+    content: "";
+    position: absolute;
+    inset: -80% -35%;
+    z-index: 0;
+    background: radial-gradient(circle at 50% 50%, rgb(126 217 87 / 18%), transparent 58%);
+    opacity: 0;
+    transform: scale(0.72);
+    transition:
+      opacity 220ms var(--ease-out),
+      transform 260ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .effect-chip > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .effect-chip:hover {
+    border-color: rgb(126 217 87 / 28%);
+    box-shadow:
+      0 16px 38px rgb(9 11 9 / 9%),
+      0 0 0 1px rgb(126 217 87 / 10%) inset;
+    transform: translateY(-2px);
+  }
+
+  .effect-chip:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .effect-chip > span:first-child {
+    transition: box-shadow 220ms var(--ease-out);
+  }
+
+  .effect-chip:hover > span:first-child {
+    box-shadow: 0 0 0 5px rgb(126 217 87 / 14%);
+  }
+
+  .effect-media-frame {
+    isolation: isolate;
+  }
+
+  .effect-media-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      radial-gradient(circle at 72% 18%, rgb(255 255 255 / 18%), transparent 28%),
+      linear-gradient(180deg, transparent, rgb(5 8 5 / 10%));
+    opacity: 0;
+    transition: opacity 520ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .effect-media-frame:hover::before {
+    opacity: 1;
+  }
+
+  .effect-media-frame img {
+    transition:
+      transform 900ms var(--ease-out),
+      filter 900ms var(--ease-out);
+    will-change: transform;
+  }
+
+  .effect-media-frame:hover img {
+    filter: saturate(1.08) contrast(1.04);
+    transform: scale(1.045);
+  }
+
+  .effect-card {
+    position: relative;
+    isolation: isolate;
+    transition:
+      border-color 240ms var(--ease-out),
+      box-shadow 240ms var(--ease-out),
+      transform 240ms var(--ease-out);
+  }
+
+  .effect-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at 84% 12%, rgb(126 217 87 / 16%), transparent 26%),
+      linear-gradient(180deg, rgb(255 255 255 / 18%), transparent 38%);
+    opacity: 0;
+    transition: opacity 240ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .effect-card:hover {
+    border-color: rgb(126 217 87 / 24%);
+    box-shadow:
+      0 22px 56px rgb(9 11 9 / 11%),
+      0 0 0 1px rgb(255 255 255 / 72%) inset;
+    transform: translateY(-4px);
+  }
+
+  .effect-card:hover::before {
+    opacity: 1;
+  }
+
+  .effect-card-dark::before {
+    background:
+      radial-gradient(circle at 84% 12%, rgb(126 217 87 / 16%), transparent 34%),
+      linear-gradient(180deg, rgb(255 255 255 / 8%), transparent 40%);
+  }
+
+  .effect-card-dark:hover {
+    border-color: rgb(126 217 87 / 26%);
+    box-shadow: 0 20px 50px rgb(0 0 0 / 22%);
+  }
+
+  .timeline-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--brand-green-500), rgb(126 217 87 / 0%));
+    transform: scaleX(0.45);
+    transform-origin: left;
+    transition: transform 260ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .timeline-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .quote-panel-effect:hover {
+    transform: none;
+  }
+
   .marquee-edge {
     background: linear-gradient(90deg, var(--surface-base), rgb(252 252 251 / 0%));
   }
@@ -189,21 +453,14 @@
   }
 
   .marquee-group {
+    box-sizing: border-box;
     display: flex;
     flex-shrink: 0;
-    gap: 0.75rem;
-    padding-right: 0.75rem;
-  }
-
-  .image-panel img {
-    transition:
-      transform 900ms var(--ease-out),
-      filter 900ms var(--ease-out);
-  }
-
-  .image-panel:hover img {
-    filter: saturate(1.08) contrast(1.04);
-    transform: scale(1.045);
+    min-width: 100vw;
+    align-items: center;
+    justify-content: space-around;
+    gap: clamp(0.75rem, 1.6vw, 1.25rem);
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
   }
 
   .depth-scene {
@@ -313,6 +570,28 @@
 
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes thandy-hero-drift {
+  from {
+    transform: scale(1.018) translate3d(-0.35%, -0.2%, 0);
+  }
+
+  to {
+    transform: scale(1.06) translate3d(0.7%, 0.35%, 0);
+  }
+}
+
+@keyframes thandy-light-sweep {
+  0%,
+  46% {
+    transform: translateX(-54%) rotate(10deg);
+  }
+
+  70%,
+  100% {
+    transform: translateX(54%) rotate(10deg);
   }
 }
 

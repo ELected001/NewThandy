@@ -54,6 +54,14 @@ const media = {
     src: "/images/brand-strategy/clear-park.jpg",
     alt: "A clear green outdoor space with trees and open lawn",
   },
+  sodWork: {
+    src: "/images/brand-strategy/sod-work.jpg",
+    alt: "Fresh lawn installation work in progress",
+  },
+  booking: {
+    src: "/images/photography/booking.jpg",
+    alt: "A landscaping quote being planned for a property",
+  },
 } as const;
 
 const packageCards = [
@@ -166,7 +174,7 @@ function ImagePanel({
   priority?: boolean;
 }) {
   return (
-    <div className={`image-panel relative overflow-hidden ${className ?? ""}`}>
+    <div className={`image-panel effect-media-frame relative overflow-hidden ${className ?? ""}`}>
       <Image
         alt={alt}
         className="h-full w-full object-cover"
@@ -189,8 +197,8 @@ export function HomeHero() {
       <div className="soft-grid absolute inset-0 -z-20 opacity-70" />
       <div className="absolute inset-x-0 top-0 -z-10 h-80 bg-[linear-gradient(180deg,rgb(126_217_87/12%),rgb(255_255_255/0))]" />
 
-      <div className="page-shell grid min-h-[calc(88svh-8rem)] gap-10 pb-14 lg:grid-cols-[minmax(0,0.56fr)_minmax(24rem,0.44fr)] lg:items-end">
-        <div className="max-w-4xl pb-2">
+      <div className="page-shell grid gap-10 lg:min-h-[720px] lg:grid-cols-[minmax(0,0.57fr)_minmax(24rem,0.43fr)] lg:items-stretch">
+        <div className="max-w-4xl pb-2 lg:flex lg:flex-col lg:justify-center">
           <Eyebrow light>{siteConfig.hero.eyebrow}</Eyebrow>
           <p className="mt-5 text-base font-semibold text-[var(--brand-green-700)]">
             {siteConfig.tagline}
@@ -216,7 +224,7 @@ export function HomeHero() {
             {trustChips.map((chip) => (
               <div
                 key={chip.label}
-                className="flex items-center gap-3 rounded-[1rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-4 py-3 text-sm font-semibold text-[var(--ink-900)] shadow-[var(--shadow-soft)]"
+                className="effect-chip flex items-center gap-3 rounded-[1rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-4 py-3 text-sm font-semibold text-[var(--ink-900)] shadow-[var(--shadow-soft)]"
               >
                 <Icon className="h-4 w-4 text-[var(--brand-green-700)]" name={chip.icon} />
                 <span>{chip.label}</span>
@@ -225,23 +233,25 @@ export function HomeHero() {
           </div>
         </div>
 
-        <div className="relative min-h-[34rem] overflow-hidden rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-hero)]">
-          <Image
-            alt={media.brandHero.alt}
-            className="h-full w-full object-cover object-[55%_50%]"
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 44vw"
-            src={media.brandHero.src}
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(5_8_5/0)_30%,rgb(5_8_5/68%))]" />
-          <div className="absolute bottom-5 left-5 right-5 rounded-[1rem] border border-white/12 bg-white/14 px-5 py-5 text-white backdrop-blur-md">
-            <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--brand-green-300)]">
-              Season after season
-            </p>
-            <p className="mt-2 text-base leading-7 text-white/78">
-              A direct path from first message to a property-specific quote.
-            </p>
+        <div className="grid lg:min-h-0">
+          <div className="hero-media-effect relative min-h-[32rem] overflow-hidden rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-hero)] lg:h-full lg:min-h-0">
+            <Image
+              alt={media.brandHero.alt}
+              className="hero-media-image h-full w-full object-cover object-[55%_50%]"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 44vw"
+              src={media.brandHero.src}
+            />
+            <div className="absolute inset-0 z-10 bg-[linear-gradient(180deg,rgb(5_8_5/0)_30%,rgb(5_8_5/68%))]" />
+            <div className="effect-glass absolute bottom-5 left-5 right-5 z-20 rounded-[1rem] border border-white/12 bg-white/14 px-5 py-5 text-white backdrop-blur-md">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--brand-green-300)]">
+                Season after season
+              </p>
+              <p className="mt-2 text-base leading-7 text-white/78">
+                A direct path from first message to a property-specific quote.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -261,7 +271,7 @@ export function MotionMarquee() {
   return (
     <section
       aria-label="Services at a glance"
-      className="relative overflow-hidden border-y border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] py-4"
+      className="relative mt-8 overflow-hidden border-y border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] py-4 sm:mt-10"
     >
       <div className="marquee-edge pointer-events-none absolute inset-y-0 left-0 z-10 w-16" />
       <div className="marquee-edge pointer-events-none absolute inset-y-0 right-0 z-10 w-16 rotate-180" />
@@ -275,7 +285,7 @@ export function MotionMarquee() {
             {items.map((item) => (
               <span
                 key={`${cycle}-${item}`}
-                className="inline-flex items-center gap-3 rounded-full border border-[rgb(17_22_17/8%)] bg-white px-4 py-2 text-sm font-semibold text-[var(--ink-900)] shadow-[var(--shadow-soft)]"
+                className="effect-chip inline-flex items-center gap-3 rounded-full border border-[rgb(17_22_17/8%)] bg-white px-4 py-2 text-sm font-semibold text-[var(--ink-900)] shadow-[var(--shadow-soft)]"
               >
                 <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-green-500)]" />
                 {item}
@@ -300,18 +310,30 @@ export function HomeServiceShowcase() {
               Clean outdoor care, split into clear service lanes.
             </h2>
           </FadeIn>
-          <FadeIn className="max-w-2xl" delay={0.08}>
-            <p className="text-lg leading-8 text-[var(--text-secondary)]">
-              We offer a range of landscaping and maintenance services designed to keep outdoor spaces looking their best: clean lawn care, seasonal reset work, debris clearing, green waste removal, and ongoing property maintenance.
-            </p>
+          <FadeIn delay={0.08}>
+            <div className="effect-media-frame media-feature-card relative min-h-[15rem] overflow-hidden rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-soft)]">
+              <Image
+                alt={media.sodWork.alt}
+                className="h-full w-full object-cover object-[50%_55%]"
+                fill
+                sizes="(max-width: 1024px) 100vw, 58vw"
+                src={media.sodWork.src}
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgb(5_8_5/84%),rgb(5_8_5/52%),rgb(5_8_5/8%))]" />
+              <div className="absolute inset-y-0 left-0 flex max-w-2xl items-center px-6 py-6 sm:px-8">
+                <p className="text-lg leading-8 text-white/84">
+                  We offer a range of landscaping and maintenance services designed to keep outdoor spaces looking their best: clean lawn care, seasonal reset work, debris clearing, green waste removal, and ongoing property maintenance.
+                </p>
+              </div>
+            </div>
           </FadeIn>
         </div>
 
         <div className="mt-9 grid gap-4 lg:grid-cols-3">
           {serviceCards.map((service, index) => (
             <FadeIn key={service.slug} delay={index * 0.05}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white shadow-[var(--shadow-soft)]">
-                <div className="relative min-h-[15rem] overflow-hidden bg-[var(--ink-950)]">
+              <article className="effect-card group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white shadow-[var(--shadow-soft)]">
+                <div className="effect-media-frame relative min-h-[15rem] overflow-hidden bg-[var(--ink-950)]">
                   <Image
                     alt={serviceMedia[service.slug].alt}
                     className="h-full w-full object-cover transition duration-700 ease-[var(--ease-out)] group-hover:scale-[1.05]"
@@ -356,7 +378,7 @@ export function HomeAudienceFit() {
         <span className="sr-only" id="about" />
         <div className="grid gap-8 lg:grid-cols-[0.52fr_0.48fr] lg:items-stretch">
           <FadeIn className="h-full">
-            <div className="relative h-full min-h-[34rem] overflow-hidden rounded-[2.2rem] border border-white/10">
+            <div className="effect-media-frame relative h-full min-h-[34rem] overflow-hidden rounded-[2.2rem] border border-white/10">
               <Image
                 alt={media.residential.alt}
                 className="h-full w-full object-cover"
@@ -386,7 +408,7 @@ export function HomeAudienceFit() {
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {routeIntents.map((item) => (
-                <article key={item.label} className="rounded-[1.35rem] border border-white/10 bg-white/7 px-5 py-5">
+                <article key={item.label} className="effect-card effect-card-dark rounded-[1.35rem] border border-white/10 bg-white/7 px-5 py-5">
                   <h3 className="text-xl font-semibold">{item.label}</h3>
                   <p className="mt-2 text-sm leading-6 text-white/64">{item.copy}</p>
                 </article>
@@ -423,7 +445,7 @@ export function HomeBookingFlow() {
             <div className="grid gap-4">
               {processSteps.map((step, index) => (
                 <FadeIn key={step.number} delay={index * 0.06}>
-                  <article className="relative rounded-[1.7rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-6 py-6 shadow-[var(--shadow-soft)] sm:ml-14">
+                  <article className="effect-card timeline-card relative rounded-[1.7rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-6 py-6 shadow-[var(--shadow-soft)] sm:ml-14">
                     <span className="absolute -left-14 top-6 hidden h-12 w-12 items-center justify-center rounded-full bg-[var(--ink-950)] text-sm font-semibold text-[var(--brand-green-500)] sm:flex">
                       {step.number}
                     </span>
@@ -448,7 +470,7 @@ export function HomeBookingFlow() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pricingFactors.map((factor, index) => (
               <FadeIn key={factor.title} delay={index * 0.04}>
-                <article className="h-full rounded-[1.35rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-5 py-5 shadow-[var(--shadow-soft)]">
+                <article className="effect-card h-full rounded-[1.35rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-5 py-5 shadow-[var(--shadow-soft)]">
                   <Icon className="text-[var(--brand-green-700)]" name={factor.icon} />
                   <h4 className="mt-5 text-xl font-semibold text-black">{factor.title}</h4>
                   <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">
@@ -468,7 +490,7 @@ export function HomeQuoteSection({ service }: { service?: string }) {
   return (
     <section className="section-space bg-[var(--surface-base)]" id="quote-form">
       <div className="page-shell">
-        <div className="grid gap-8 rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-white p-6 shadow-[var(--shadow-soft)] lg:grid-cols-[0.42fr_0.58fr] lg:p-8">
+        <div className="effect-card quote-panel-effect grid gap-8 rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-white p-6 shadow-[var(--shadow-soft)] lg:grid-cols-[0.42fr_0.58fr] lg:p-8">
           <div>
             <Eyebrow light>Free quote</Eyebrow>
             <h2 className="mt-5 text-4xl font-semibold leading-[0.98] text-black sm:text-5xl">
@@ -480,6 +502,11 @@ export function HomeQuoteSection({ service }: { service?: string }) {
             <div className="mt-6 rounded-[1rem] bg-[var(--surface-soft)] px-5 py-5 text-sm leading-6 text-[var(--text-secondary)]">
               Prefer a phone conversation? Call {siteConfig.phone.label} and mention the property location, service need, and timing.
             </div>
+            <ImagePanel
+              alt={media.booking.alt}
+              className="mt-5 min-h-[10rem] rounded-[1.1rem] border border-[rgb(17_22_17/8%)] shadow-[var(--shadow-soft)]"
+              src={media.booking.src}
+            />
           </div>
           <div>
             <QuoteForm key={service ?? "empty-service"} service={service} />
@@ -505,7 +532,7 @@ export function HomeFaqSection() {
             </p>
           </FadeIn>
           <FadeIn delay={0.08}>
-            <div className="rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-5 py-5 shadow-[var(--shadow-soft)] sm:px-6 sm:py-6">
+            <div className="effect-card rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-5 py-5 shadow-[var(--shadow-soft)] sm:px-6 sm:py-6">
               <FAQ items={faqItems} />
             </div>
           </FadeIn>

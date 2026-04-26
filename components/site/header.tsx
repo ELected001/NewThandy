@@ -37,7 +37,7 @@ export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 sm:px-4">
       <div className="mx-auto w-full max-w-[1320px] pt-3 sm:pt-4">
-        <div className="rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white px-3 py-2 shadow-[var(--shadow-soft)] sm:px-4">
+        <div className="site-header-panel rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white px-3 py-2 shadow-[var(--shadow-soft)] sm:px-4">
           <div className="flex items-center justify-between gap-4">
             <Logo size="header" variant="dark" />
             <nav

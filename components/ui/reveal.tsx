@@ -1,7 +1,7 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useSyncExternalStore, type PropsWithChildren } from "react";
+import { motion } from "motion/react";
 
 type FadeInProps = PropsWithChildren<{
   className?: string;
@@ -9,13 +9,38 @@ type FadeInProps = PropsWithChildren<{
   y?: number;
 }>;
 
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(reducedMotionQuery);
+  mediaQuery.addEventListener("change", onStoreChange);
+
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(reducedMotionQuery).matches;
+}
+
+function getServerReducedMotionSnapshot() {
+  return false;
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getServerReducedMotionSnapshot,
+  );
+}
+
 export function FadeIn({
   children,
   className,
   delay = 0,
   y = 24,
 }: FadeInProps) {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;

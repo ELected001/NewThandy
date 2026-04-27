@@ -1,7 +1,9 @@
 .tools
 node_modules
 .next
-.vercel/output
+.vercel/*
+!.vercel/output
+!.vercel/output/**
 coverage
 playwright-report
 test-results

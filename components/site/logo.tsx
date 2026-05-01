@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
 import { cn } from "@/lib/utils";
+import { smoothScrollToPosition } from "@/lib/smooth-scroll";
 
 type LogoProps = {
   variant?: "light" | "dark";
@@ -15,11 +20,28 @@ export function Logo({
   className,
   priority = false,
 }: LogoProps) {
+  const pathname = usePathname();
+
+  const handleHomepageClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (pathname !== "/") {
+      return;
+    }
+
+    event.preventDefault();
+    window.history.pushState(null, "", "/");
+    smoothScrollToPosition(0, {
+      minDuration: 760,
+      maxDuration: 1450,
+      distanceFactor: 0.42,
+    });
+  };
+
   return (
     <Link
-      aria-label="Go to Thandy home"
+      aria-label="Go to Thandy homepage"
       className={cn("inline-flex shrink-0 items-center", className)}
       href="/"
+      onClick={handleHomepageClick}
     >
       <Image
         alt="Thandy Landscaping Services Inc."

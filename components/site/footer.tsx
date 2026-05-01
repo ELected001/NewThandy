@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { navigation, siteConfig } from "@/content/site";
 import { Logo } from "@/components/site/logo";
+import { SocialLinks } from "@/components/site/social-links";
 
 export function SiteFooter() {
   return (
@@ -12,16 +13,17 @@ export function SiteFooter() {
           <div className="max-w-md">
             <Logo className="w-fit" />
             <p className="mt-6 text-base leading-7 text-white/70">
-              {siteConfig.tagline} Proudly serving Hamilton and surrounding residential and commercial areas.
+              {siteConfig.tagline}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <ButtonLink href={siteConfig.phone.href} icon="phone" size="small" variant="secondary">
-                Call
+                Call Thandy
               </ButtonLink>
               <ButtonLink href="/#quote-form" size="small" trailingArrow>
-                Get quote
+                Get a quote
               </ButtonLink>
             </div>
+            <SocialLinks className="mt-5" />
           </div>
           <div>
             <p className="text-sm font-semibold uppercase text-white/42">
@@ -53,7 +55,6 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>{siteConfig.location.summary}</li>
-              <li>Hamilton and surrounding residential and commercial areas</li>
             </ul>
           </div>
         </div>

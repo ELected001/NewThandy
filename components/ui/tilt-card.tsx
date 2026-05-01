@@ -1,7 +1,8 @@
 "use client";
 
 import type { PropsWithChildren } from "react";
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { useSyncExternalStore } from "react";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 
 type TiltCardProps = PropsWithChildren<{
@@ -11,6 +12,31 @@ type TiltCardProps = PropsWithChildren<{
   lift?: number;
 }>;
 
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(reducedMotionQuery);
+  mediaQuery.addEventListener("change", onStoreChange);
+
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(reducedMotionQuery).matches;
+}
+
+function getServerReducedMotionSnapshot() {
+  return false;
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getServerReducedMotionSnapshot,
+  );
+}
+
 export function TiltCard({
   children,
   className,
@@ -18,7 +44,7 @@ export function TiltCard({
   intensity = 10,
   lift = -8,
 }: TiltCardProps) {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const rotateXRaw = useMotionValue(0);
   const rotateYRaw = useMotionValue(0);
   const shineX = useMotionValue(50);
@@ -37,14 +63,6 @@ export function TiltCard({
 
   const shine = useMotionTemplate`radial-gradient(circle at ${shineX}% ${shineY}%, rgb(255 255 255 / 0.18), transparent 42%)`;
 
-  if (prefersReducedMotion) {
-    return (
-      <div className={cn("relative h-full", className)}>
-        {children}
-      </div>
-    );
-  }
-
   return (
     <motion.div
       className={cn(
@@ -52,12 +70,20 @@ export function TiltCard({
         className,
       )}
       onMouseLeave={() => {
+        if (prefersReducedMotion) {
+          return;
+        }
+
         rotateXRaw.set(0);
         rotateYRaw.set(0);
         shineX.set(50);
         shineY.set(50);
       }}
       onMouseMove={(event) => {
+        if (prefersReducedMotion) {
+          return;
+        }
+
         const bounds = event.currentTarget.getBoundingClientRect();
         const x = (event.clientX - bounds.left) / bounds.width;
         const y = (event.clientY - bounds.top) / bounds.height;
@@ -67,15 +93,15 @@ export function TiltCard({
         shineX.set(x * 100);
         shineY.set(y * 100);
       }}
-      style={{ rotateX, rotateY }}
+      style={prefersReducedMotion ? undefined : { rotateX, rotateY }}
       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.012, y: lift }}
+      whileHover={prefersReducedMotion ? undefined : { scale: 1.012, y: lift }}
     >
       {glare ? (
         <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-80 mix-blend-screen"
-          style={{ background: shine }}
+          style={prefersReducedMotion ? { opacity: 0 } : { background: shine }}
         />
       ) : null}
       <div className="relative h-full [transform:translateZ(0)]">{children}</div>

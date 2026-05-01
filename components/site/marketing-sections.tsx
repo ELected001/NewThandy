@@ -1,10 +1,12 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { QuoteForm } from "@/components/site/quote-form";
+import { ScrollDepthScene } from "@/components/site/scroll-depth-scene";
 import { ButtonLink } from "@/components/ui/button";
 import { FAQ } from "@/components/ui/faq";
 import { Icon } from "@/components/ui/icons";
 import { FadeIn } from "@/components/ui/reveal";
+import { TiltCard } from "@/components/ui/tilt-card";
 import {
   brandFoundation,
   brandStoryPoints,
@@ -39,8 +41,8 @@ const media = {
     alt: "A landscaping worker trimming a clean hedge beside a lawn",
   },
   leafCleanup: {
-    src: "/images/photography/leaf-cleanup.jpg",
-    alt: "A residential yard being cleared of seasonal leaves",
+    src: "/images/photography/leaf-blower.png",
+    alt: "A leaf blower clearing leaves from a residential lawn",
   },
   residential: {
     src: "/images/brand-strategy/residential-lawn.jpg",
@@ -53,10 +55,6 @@ const media = {
   clearPark: {
     src: "/images/brand-strategy/clear-park.jpg",
     alt: "A clear green outdoor space with trees and open lawn",
-  },
-  sodWork: {
-    src: "/images/brand-strategy/sod-work.jpg",
-    alt: "Fresh lawn installation work in progress",
   },
   booking: {
     src: "/images/photography/booking.jpg",
@@ -131,7 +129,7 @@ const profilePrinciples = [
   },
   {
     title: "Local focus",
-    description: "Hamilton and nearby residential and commercial areas remain the practical service base.",
+    description: "Hamilton and nearby residential and commercial communities remain the practical service base.",
     icon: "map" as const,
   },
 ] as const;
@@ -204,7 +202,7 @@ export function HomeHero() {
             {siteConfig.tagline}
           </p>
           <h1 className="headline-balance mt-5 max-w-5xl text-5xl font-semibold leading-[0.92] text-black sm:text-7xl lg:text-[5.8rem]">
-            Reliable lawn care and property maintenance in Hamilton.
+            {siteConfig.hero.title}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-secondary)] sm:text-xl sm:leading-9">
             {siteConfig.hero.description}
@@ -234,16 +232,14 @@ export function HomeHero() {
         </div>
 
         <div className="grid lg:min-h-0">
-          <div className="hero-media-effect relative min-h-[32rem] overflow-hidden rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-hero)] lg:h-full lg:min-h-0">
-            <Image
-              alt={media.brandHero.alt}
-              className="hero-media-image h-full w-full object-cover object-[55%_50%]"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 44vw"
-              src={media.brandHero.src}
-            />
-            <div className="absolute inset-0 z-10 bg-[linear-gradient(180deg,rgb(5_8_5/0)_30%,rgb(5_8_5/68%))]" />
+          <ScrollDepthScene
+            alt={media.brandHero.alt}
+            className="hero-media-effect min-h-[32rem] rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-hero)] lg:h-full lg:min-h-0"
+            imageClassName="hero-media-image object-[55%_50%]"
+            priority
+            sizes="(max-width: 1024px) 100vw, 44vw"
+            src={media.brandHero.src}
+          >
             <div className="effect-glass absolute bottom-5 left-5 right-5 z-20 rounded-[1rem] border border-white/12 bg-white/14 px-5 py-5 text-white backdrop-blur-md">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--brand-green-300)]">
                 Season after season
@@ -252,7 +248,7 @@ export function HomeHero() {
                 A direct path from first message to a property-specific quote.
               </p>
             </div>
-          </div>
+          </ScrollDepthScene>
         </div>
       </div>
     </section>
@@ -265,7 +261,7 @@ export function MotionMarquee() {
     "Leaf cleaning",
     "Seasonal cleanup",
     "Property maintenance",
-    "Hamilton and surrounding areas",
+    "Hamilton and surrounding communities",
   ];
 
   return (
@@ -311,58 +307,61 @@ export function HomeServiceShowcase() {
             </h2>
           </FadeIn>
           <FadeIn delay={0.08}>
-            <div className="effect-media-frame media-feature-card relative min-h-[15rem] overflow-hidden rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-soft)]">
-              <Image
-                alt={media.sodWork.alt}
-                className="h-full w-full object-cover object-[50%_55%]"
-                fill
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                src={media.sodWork.src}
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgb(5_8_5/84%),rgb(5_8_5/52%),rgb(5_8_5/8%))]" />
-              <div className="absolute inset-y-0 left-0 flex max-w-2xl items-center px-6 py-6 sm:px-8">
+            <ScrollDepthScene
+              alt={media.gardenPath.alt}
+              className="effect-media-frame media-feature-card min-h-[15rem] rounded-[1.5rem] border border-[rgb(17_22_17/8%)] bg-[var(--ink-950)] shadow-[var(--shadow-soft)]"
+              imageClassName="object-[50%_55%]"
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              src={media.gardenPath.src}
+            >
+              <div className="absolute inset-0 z-10 bg-[linear-gradient(90deg,rgb(5_8_5/84%),rgb(5_8_5/52%),rgb(5_8_5/8%))]" />
+              <div className="absolute inset-y-0 left-0 z-20 flex max-w-2xl items-center px-6 py-6 sm:px-8">
                 <p className="text-lg leading-8 text-white/84">
                   We offer a range of landscaping and maintenance services designed to keep outdoor spaces looking their best: clean lawn care, seasonal reset work, debris clearing, green waste removal, and ongoing property maintenance.
                 </p>
               </div>
-            </div>
+            </ScrollDepthScene>
           </FadeIn>
         </div>
 
         <div className="mt-9 grid gap-4 lg:grid-cols-3">
           {serviceCards.map((service, index) => (
             <FadeIn key={service.slug} delay={index * 0.05}>
-              <article className="effect-card group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white shadow-[var(--shadow-soft)]">
-                <div className="effect-media-frame relative min-h-[15rem] overflow-hidden bg-[var(--ink-950)]">
-                  <Image
-                    alt={serviceMedia[service.slug].alt}
-                    className="h-full w-full object-cover transition duration-700 ease-[var(--ease-out)] group-hover:scale-[1.05]"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    src={serviceMedia[service.slug].src}
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--brand-green-700)]">
-                    0{index + 1} / {service.eyebrow}
-                  </p>
-                  <h3 className="mt-4 text-3xl font-semibold text-black">{service.title}</h3>
-                  <p className="mt-3 text-base leading-7 text-[var(--text-secondary)]">{service.detail}</p>
-                  <ul className="mt-5 grid gap-2">
-                    {service.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-3 text-sm font-semibold text-[var(--ink-900)]">
-                        <Icon className="mt-0.5 h-4 w-4 text-[var(--brand-green-700)]" name="check" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-6">
-                    <ButtonLink href={service.href} trailingArrow variant="ghost">
-                      Request this service
-                    </ButtonLink>
+              <TiltCard className="h-full" intensity={6} lift={-6}>
+                <article
+                  className="effect-card depth-card group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-[rgb(17_22_17/8%)] bg-white shadow-[var(--shadow-soft)]"
+                >
+                  <div className="effect-media-frame relative min-h-[15rem] overflow-hidden bg-[var(--ink-950)]">
+                    <Image
+                      alt={serviceMedia[service.slug].alt}
+                      className="h-full w-full object-cover transition duration-700 ease-[var(--ease-out)] group-hover:scale-[1.05]"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      src={serviceMedia[service.slug].src}
+                    />
                   </div>
-                </div>
-              </article>
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--brand-green-700)]">
+                      0{index + 1} / {service.eyebrow}
+                    </p>
+                    <h3 className="mt-4 text-3xl font-semibold text-black">{service.title}</h3>
+                    <p className="mt-3 text-base leading-7 text-[var(--text-secondary)]">{service.detail}</p>
+                    <ul className="mt-5 grid gap-2">
+                      {service.bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-3 text-sm font-semibold text-[var(--ink-900)]">
+                          <Icon className="mt-0.5 h-4 w-4 text-[var(--brand-green-700)]" name="check" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-6">
+                      <ButtonLink href={service.href} trailingArrow variant="ghost">
+                        Request this service
+                      </ButtonLink>
+                    </div>
+                  </div>
+                </article>
+              </TiltCard>
             </FadeIn>
           ))}
         </div>
@@ -378,24 +377,21 @@ export function HomeAudienceFit() {
         <span className="sr-only" id="about" />
         <div className="grid gap-8 lg:grid-cols-[0.52fr_0.48fr] lg:items-stretch">
           <FadeIn className="h-full">
-            <div className="effect-media-frame relative h-full min-h-[34rem] overflow-hidden rounded-[2.2rem] border border-white/10">
-              <Image
-                alt={media.residential.alt}
-                className="h-full w-full object-cover"
-                fill
-                sizes="(max-width: 1024px) 100vw, 52vw"
-                src={media.residential.src}
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(5_8_5/0)_36%,rgb(5_8_5/72%))]" />
+            <ScrollDepthScene
+              alt={media.residential.alt}
+              className="effect-media-frame h-full min-h-[34rem] rounded-[2.2rem] border border-white/10"
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              src={media.residential.src}
+            >
               <div className="absolute bottom-6 left-6 max-w-sm">
                 <p className="text-sm font-semibold uppercase text-[var(--brand-green-300)]">
                   Service area
                 </p>
                 <p className="mt-3 text-3xl font-semibold leading-tight">
-                  Hamilton and surrounding residential and commercial areas.
+                  Residential and commercial property care
                 </p>
               </div>
-            </div>
+            </ScrollDepthScene>
           </FadeIn>
 
           <FadeIn delay={0.08}>
@@ -445,7 +441,9 @@ export function HomeBookingFlow() {
             <div className="grid gap-4">
               {processSteps.map((step, index) => (
                 <FadeIn key={step.number} delay={index * 0.06}>
-                  <article className="effect-card timeline-card relative rounded-[1.7rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-6 py-6 shadow-[var(--shadow-soft)] sm:ml-14">
+                  <article
+                    className="effect-card depth-card timeline-card relative rounded-[1.7rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-6 py-6 shadow-[var(--shadow-soft)] sm:ml-14"
+                  >
                     <span className="absolute -left-14 top-6 hidden h-12 w-12 items-center justify-center rounded-full bg-[var(--ink-950)] text-sm font-semibold text-[var(--brand-green-500)] sm:flex">
                       {step.number}
                     </span>
@@ -470,7 +468,9 @@ export function HomeBookingFlow() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pricingFactors.map((factor, index) => (
               <FadeIn key={factor.title} delay={index * 0.04}>
-                <article className="effect-card h-full rounded-[1.35rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-5 py-5 shadow-[var(--shadow-soft)]">
+                <article
+                  className="effect-card depth-card h-full rounded-[1.35rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-base)] px-5 py-5 shadow-[var(--shadow-soft)]"
+                >
                   <Icon className="text-[var(--brand-green-700)]" name={factor.icon} />
                   <h4 className="mt-5 text-xl font-semibold text-black">{factor.title}</h4>
                   <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">
@@ -823,12 +823,12 @@ export function ProfileStrategySection() {
               We help keep your lawn neat and your surroundings clean.
             </h2>
             <p className="mt-5 text-lg leading-8 text-white/72">
-              THANDY helps homeowners and property managers maintain clean, attractive outdoor spaces through professional lawn mowing and leaf cleaning services in Hamilton and surrounding areas.
+              THANDY helps homeowners and property managers maintain clean, attractive outdoor spaces through professional lawn mowing and leaf cleaning services across the local service area.
             </p>
             <div className="mt-7 rounded-[1.7rem] border border-white/10 bg-white/8 px-5 py-5">
               <p className="text-sm font-semibold uppercase text-[var(--brand-green-300)]">Positioning statement</p>
               <p className="mt-3 text-base leading-7 text-white/72">
-                THANDY is a reliable, customer-focused landscaping company in Hamilton that helps homeowners and property managers maintain clean, attractive outdoor spaces through professional lawn mowing and leaf cleaning services.
+                THANDY is a reliable, customer-focused landscaping company that helps homeowners and property managers maintain clean, attractive outdoor spaces through professional lawn mowing and leaf cleaning services.
               </p>
             </div>
           </FadeIn>

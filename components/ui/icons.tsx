@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import type { IconName } from "@/content/site";
 
 type IconProps = {
   className?: string;
@@ -8,18 +9,7 @@ export function Icon({
   name,
   className,
 }: IconProps & {
-  name:
-    | "leaf"
-    | "shield"
-    | "check"
-    | "building"
-    | "phone"
-    | "map"
-    | "clock"
-    | "spark"
-    | "wind"
-    | "layers"
-    | "mail";
+  name: IconName;
 }) {
   const props = {
     "aria-hidden": true,
@@ -107,6 +97,36 @@ export function Icon({
         <svg {...props}>
           <rect x="3" y="5" width="18" height="14" rx="2" />
           <path d="m4 7 8 6 8-6" />
+        </svg>
+      );
+    case "instagram":
+      return (
+        <svg {...props}>
+          <rect x="4" y="4" width="16" height="16" rx="4.5" />
+          <circle cx="12" cy="12" r="3.5" />
+          <path d="M16.8 7.2h.01" />
+        </svg>
+      );
+    case "x":
+      return (
+        <svg
+          aria-hidden
+          className={cn("h-5 w-5", className)}
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M13.7 10.7 21.2 2h-1.8l-6.5 7.5L7.7 2h-6l7.9 11.5L1.7 22h1.8l6.9-7.5 5.5 7.5h6l-8.2-11.3Zm-2.5 2.7-.8-1.1L4.1 3.3h2.8l5.1 7.3.8 1.1 6.7 9.6h-2.8l-5.5-7.9Z" />
+        </svg>
+      );
+    case "facebook":
+      return (
+        <svg
+          aria-hidden
+          className={cn("h-5 w-5", className)}
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M14 8.2V6.7c0-.7.5-1.2 1.3-1.2H17V2.3c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.5v1.5H7v3.6h2.8V22H14V11.8h2.8l.5-3.6H14Z" />
         </svg>
       );
   }

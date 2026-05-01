@@ -9,7 +9,10 @@ export type IconName =
   | "spark"
   | "wind"
   | "layers"
-  | "mail";
+  | "mail"
+  | "instagram"
+  | "x"
+  | "facebook";
 
 const configuredSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://thandylandscaping.ca";
@@ -22,13 +25,13 @@ export const siteConfig = {
   shortName: "Thandy",
   url: configuredSiteUrl,
   description:
-    "Thandy Landscaping Services Inc. helps homeowners, seniors, landlords, property managers, and individuals keep outdoor spaces clean, healthy, safe, and attractive in Hamilton and surrounding residential and commercial areas.",
+    "Thandy Landscaping Services Inc. helps homeowners, seniors, landlords, property managers, and individuals keep outdoor spaces clean, healthy, safe, and attractive across local residential and commercial areas.",
   tagline: "Clean Lawns. Clear Surroundings.",
   hero: {
     eyebrow: "Reliable Property Care",
-    title: "Reliable lawn care and property maintenance in Hamilton.",
+    title: "Reliable lawn care and property maintenance",
     description:
-      "Locally operated lawn mowing, seasonal cleanup, and outdoor property maintenance for Hamilton homes, rental properties, managed spaces, and individuals who need consistent service and attention to detail.",
+      "Locally operated lawn mowing, seasonal cleanup, and outdoor property maintenance for homes, rental properties, managed spaces, and individuals who need consistent service and attention to detail.",
   },
   phone: {
     label: "+1 289-994-5553",
@@ -43,9 +46,250 @@ export const siteConfig = {
     city: "Hamilton",
     region: "Ontario",
     country: "Canada",
-    summary: "Hamilton, Ontario, Canada",
+    summary: "Hamilton, Ontario and surrounding areas",
   },
+  socialLinks: [
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/thandylandscaping/",
+      icon: "instagram" as const,
+    },
+    {
+      label: "X",
+      href: "https://x.com/Thandylandscape",
+      icon: "x" as const,
+    },
+    {
+      label: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61575481803705",
+      icon: "facebook" as const,
+    },
+  ],
 } as const;
+
+export type SeoRobots = {
+  index: boolean;
+  follow: boolean;
+};
+
+export type SeoImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+export type SeoPageConfig = {
+  title: string;
+  description: string;
+  path: string;
+  canonical?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  image?: SeoImage;
+  robots?: SeoRobots;
+};
+
+export type SeoAdminField = {
+  name: keyof SeoPageConfig;
+  label: string;
+  type: "text" | "textarea" | "url" | "image" | "robots";
+  required: boolean;
+  maxLength?: number;
+  helpText: string;
+  fallback?: string;
+};
+
+export const seo = {
+  defaultTitle: `${siteConfig.name} | Local property care`,
+  titleTemplate: `%s | ${siteConfig.name}`,
+  defaultDescription: siteConfig.description,
+  defaultImage: {
+    src: "/images/brand-strategy/mower-green-hero.jpg",
+    alt: "A lawn mower moving through green grass for Thandy Landscaping Services Inc.",
+    width: 2400,
+    height: 1697,
+  },
+  pages: {
+    home: {
+      title: "Lawn care and property maintenance for homes and properties",
+      description:
+        "Request quote-led lawn mowing, leaf cleaning, seasonal cleanup, and outdoor property maintenance from Thandy Landscaping Services Inc. for Hamilton and surrounding communities.",
+      path: "/",
+      openGraphTitle: siteConfig.hero.title,
+      openGraphDescription:
+        "Clean lawns, clear surroundings, and direct quote conversations for homes, rentals, managed properties, and commercial spaces.",
+      image: {
+        src: "/images/brand-strategy/mower-green-hero.jpg",
+        alt: "A lawn mower moving through green grass in Thandy brand colors",
+        width: 2400,
+        height: 1697,
+      },
+    },
+    blog: {
+      title: "Lawn care tips and property maintenance notes",
+      description:
+        "Read practical lawn care, leaf cleanup, seasonal preparation, and property maintenance notes from Thandy Landscaping Services Inc.",
+      path: "/blog",
+      openGraphTitle: "Lawn care tips and property maintenance notes",
+      openGraphDescription:
+        "Practical outdoor care notes for lawn mowing, seasonal cleanup, and property maintenance planning.",
+      image: {
+        src: "/images/brand-strategy/garden-path.jpg",
+        alt: "A clean garden path surrounded by healthy landscaping",
+        width: 2200,
+        height: 1237,
+      },
+    },
+    thankYou: {
+      title: "Quote request received",
+      description:
+        "Confirmation page for a submitted Thandy Landscaping Services Inc. quote request.",
+      path: "/thank-you",
+      openGraphTitle: "Quote request received",
+      openGraphDescription:
+        "Your Thandy Landscaping Services Inc. quote request has been received.",
+      image: {
+        src: "/images/brand-strategy/key-handoff.jpg",
+        alt: "A simple property service handoff scene",
+        width: 1800,
+        height: 1200,
+      },
+      robots: {
+        index: false,
+        follow: false,
+      },
+    },
+    notFound: {
+      title: "Page not found",
+      description:
+        "The requested page could not be found on the Thandy Landscaping Services Inc. site.",
+      path: "/404",
+      canonical: "/",
+      openGraphTitle: "Page not found",
+      openGraphDescription:
+        "Use the homepage or quote form to continue with Thandy Landscaping Services Inc.",
+      image: {
+        src: "/images/brand/logo-black-green.png",
+        alt: "Thandy Landscaping Services Inc. logo",
+        width: 3299,
+        height: 1617,
+      },
+      robots: {
+        index: false,
+        follow: true,
+      },
+    },
+  },
+} as const satisfies {
+  defaultTitle: string;
+  titleTemplate: string;
+  defaultDescription: string;
+  defaultImage: SeoImage;
+  pages: Record<string, SeoPageConfig>;
+};
+
+export const seoAdmin = {
+  version: 1,
+  pageLabels: {
+    home: "Homepage",
+    blog: "Blog index",
+    thankYou: "Quote confirmation",
+    notFound: "404 page",
+  },
+  fields: [
+    {
+      name: "title",
+      label: "Page title",
+      type: "text",
+      required: true,
+      maxLength: 60,
+      helpText: "Primary browser and search result title. Keep it specific to the page.",
+    },
+    {
+      name: "description",
+      label: "Meta description",
+      type: "textarea",
+      required: true,
+      maxLength: 160,
+      helpText: "Search result summary. Write naturally and avoid keyword stuffing.",
+    },
+    {
+      name: "canonical",
+      label: "Canonical URL path",
+      type: "url",
+      required: false,
+      helpText: "Optional canonical override. Use a site-relative path unless a cross-domain canonical is intentional.",
+      fallback: "path",
+    },
+    {
+      name: "openGraphTitle",
+      label: "Open Graph title",
+      type: "text",
+      required: false,
+      maxLength: 70,
+      helpText: "Social sharing title for Facebook, LinkedIn, and other Open Graph consumers.",
+      fallback: "title",
+    },
+    {
+      name: "openGraphDescription",
+      label: "Open Graph description",
+      type: "textarea",
+      required: false,
+      maxLength: 200,
+      helpText: "Social sharing description for Open Graph consumers.",
+      fallback: "description",
+    },
+    {
+      name: "twitterTitle",
+      label: "Twitter/X title",
+      type: "text",
+      required: false,
+      maxLength: 70,
+      helpText: "Optional X card title.",
+      fallback: "openGraphTitle, title",
+    },
+    {
+      name: "twitterDescription",
+      label: "Twitter/X description",
+      type: "textarea",
+      required: false,
+      maxLength: 200,
+      helpText: "Optional X card description.",
+      fallback: "openGraphDescription, description",
+    },
+    {
+      name: "image",
+      label: "Social image",
+      type: "image",
+      required: false,
+      helpText: "Open Graph and Twitter/X image with required alt text, width, and height.",
+      fallback: "seo.defaultImage",
+    },
+    {
+      name: "robots",
+      label: "Robots",
+      type: "robots",
+      required: false,
+      helpText: "Index/follow controls. Use noindex for confirmation, utility, and error pages only.",
+      fallback: "index: true, follow: true",
+    },
+  ],
+  platformNotes: [
+    "Map these fields one-to-one in the chosen CMS or admin panel.",
+    "Keep canonical paths site-relative unless there is an approved external canonical.",
+    "Require social image alt text whenever a social image is changed.",
+    "Do not index thank-you, 404, or other utility pages.",
+    "Use the manifest endpoint as the source for current values and fallback behavior.",
+  ],
+} as const satisfies {
+  version: number;
+  pageLabels: Record<keyof typeof seo.pages, string>;
+  fields: SeoAdminField[];
+  platformNotes: readonly string[];
+};
 
 export const navigation = [
   { label: "Home", href: "/#home" },
@@ -53,10 +297,11 @@ export const navigation = [
   { label: "Profile", href: "/#profile" },
   { label: "Pricing", href: "/#pricing" },
   { label: "Contact", href: "/#quote-form" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 
 export const trustChips = [
-  { label: "Hamilton and surrounding areas", icon: "map" as const },
+  { label: "Hamilton and surrounding communities", icon: "map" as const },
   { label: "Lawn mowing and leaf cleaning", icon: "leaf" as const },
   { label: "Clear quote conversations", icon: "phone" as const },
 ] as const;
@@ -196,7 +441,7 @@ export const brandVoicePoints = [
   },
   {
     title: "Community-focused",
-    description: "Local, Hamilton-centered service shaped around households, managed spaces, and nearby environments.",
+    description: "Local service shaped around households, managed spaces, and nearby environments.",
     icon: "map" as const,
   },
   {
@@ -224,7 +469,7 @@ export const brandStoryPoints = [
   },
   {
     title: "Our goal",
-    description: "Every household in Hamilton and its surrounding environment should experience the Thandy difference.",
+    description: "Homes and managed properties across the service area should feel the difference careful outdoor work can make.",
     icon: "spark" as const,
   },
 ] as const;
@@ -295,7 +540,7 @@ export const faqItems = [
   {
     question: "What areas do you serve?",
     answer:
-      "Hamilton is the core service area, along with surrounding residential and commercial areas.",
+      "Thandy serves Hamilton along with surrounding residential and commercial communities including Oakville, Burlington, Waterdown and many more.",
   },
 ] as const;
 
@@ -340,7 +585,7 @@ export const aboutHighlights = [
   {
     title: "Community focused",
     description:
-      "Thandy is positioned as a local landscaping company serving Hamilton and nearby areas.",
+      "Thandy is positioned as a local landscaping company serving Hamilton and nearby communities.",
     icon: "map" as const,
   },
 ] as const;
@@ -394,9 +639,30 @@ export const contactCards = [
   },
   {
     title: "Service area",
-    description: "Serving Hamilton and surrounding residential and commercial areas.",
+    description: "Serving Hamilton and surrounding residential and commercial communities.",
     value: siteConfig.location.summary,
     href: undefined,
     icon: "map" as const,
+  },
+] as const;
+
+export const blogTopicCards = [
+  {
+    title: "Preparing for a lawn mowing visit",
+    description:
+      "Simple notes on access, pets, outdoor items, and the property details that help a mowing visit stay efficient.",
+    icon: "leaf" as const,
+  },
+  {
+    title: "What shapes a seasonal cleanup quote",
+    description:
+      "A practical look at leaf volume, debris, access, green waste, and timing before a cleanup is scoped.",
+    icon: "wind" as const,
+  },
+  {
+    title: "Planning recurring property maintenance",
+    description:
+      "How property size, visit rhythm, and outdoor problem areas can guide a maintenance conversation.",
+    icon: "layers" as const,
   },
 ] as const;

@@ -9,15 +9,17 @@ import {
   HomeServiceShowcase,
   MotionMarquee,
 } from "@/components/site/marketing-sections";
+import { seo } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
-import { createBreadcrumbSchema, createProfessionalServiceSchema } from "@/lib/schema";
+import {
+  createBreadcrumbSchema,
+  createFaqSchema,
+  createLocalBusinessSchema,
+  createOrganizationSchema,
+  createWebsiteSchema,
+} from "@/lib/schema";
 
-export const metadata = createPageMetadata({
-  title: "Lawn care and property maintenance in Hamilton",
-  description:
-    "Thandy Landscaping Services Inc. provides lawn mowing, leaf cleaning, and outdoor property maintenance for Hamilton and surrounding areas.",
-  path: "/",
-});
+export const metadata = createPageMetadata(seo.pages.home);
 
 type HomePageProps = {
   searchParams?: Promise<{
@@ -31,7 +33,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     ? params?.service[0]
     : params?.service;
   const schema = [
-    createProfessionalServiceSchema(),
+    createOrganizationSchema(),
+    createWebsiteSchema(),
+    createLocalBusinessSchema(),
+    createFaqSchema(),
     createBreadcrumbSchema([{ name: "Home", path: "/" }]),
   ];
 

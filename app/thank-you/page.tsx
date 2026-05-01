@@ -1,23 +1,13 @@
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icons";
-import { siteConfig } from "@/content/site";
+import { seo, siteConfig } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
 
 type ThankYouPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const metadata = {
-  ...createPageMetadata({
-    title: "Thank you",
-    description: "Your quote request has been received by Thandy Landscaping Services Inc.",
-    path: "/thank-you",
-  }),
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
+export const metadata = createPageMetadata(seo.pages.thankYou);
 
 const serviceLabels: Record<string, string> = {
   "lawn-care": "lawn care",
@@ -55,7 +45,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             </ButtonLink>
           </div>
           <div className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/6 px-5 py-5 text-sm leading-7 text-white/70">
-            Service area: Hamilton and surrounding residential and commercial areas. If you need to
+            Service area: Hamilton and surrounding residential and commercial communities. If you need to
             add context before the callback, email {siteConfig.email.label}.
           </div>
         </div>

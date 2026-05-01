@@ -1,10 +1,10 @@
 import { ButtonLink } from "@/components/ui/button";
+import { seo } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata({
-  title: "Page not found",
-  description: "The requested page could not be found on the Thandy Landscaping Services Inc. site.",
-  path: "/404",
+  ...seo.pages.notFound,
+  robots: undefined,
 });
 
 export default function NotFound() {

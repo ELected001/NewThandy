@@ -1,45 +1,37 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/content/site";
+import { seo, siteConfig, type SeoPageConfig, type SeoRobots } from "@/content/site";
 import { absoluteUrl } from "@/lib/utils";
 
 type PageMetadataOptions = {
   title: string;
   description: string;
   path: string;
-  image?: string;
+  canonical?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  image?: SeoPageConfig["image"];
+  robots?: SeoRobots;
 };
+
+function createRobotsMetadata(robots?: SeoRobots): Metadata["robots"] {
+  if (!robots) {
+    return undefined;
+  }
+
+  return {
+    index: robots.index,
+    follow: robots.follow,
+  };
+}
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  ...createPageMetadata(seo.pages.home),
   title: {
-    default: `${siteConfig.name} | Hamilton property care`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: `${siteConfig.name} | Hamilton property care`,
-    description: siteConfig.description,
-    type: "website",
-    locale: "en_CA",
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    images: [
-      {
-        url: absoluteUrl("/images/brand/logo-black-green.png"),
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} logo`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteConfig.name} | Hamilton property care`,
-    description: siteConfig.description,
-    images: [absoluteUrl("/images/brand/logo-black-green.png")],
+    default: seo.defaultTitle,
+    template: seo.titleTemplate,
   },
   applicationName: siteConfig.shortName,
   category: "home services",
@@ -49,33 +41,48 @@ export function createPageMetadata({
   title,
   description,
   path,
-  image = "/images/brand/logo-black-green.png",
+  canonical,
+  openGraphTitle,
+  openGraphDescription,
+  twitterTitle,
+  twitterDescription,
+  image = seo.defaultImage,
+  robots,
 }: PageMetadataOptions): Metadata {
+  const canonicalPath = canonical ?? path;
+  const socialTitle = openGraphTitle ?? title;
+  const socialDescription = openGraphDescription ?? description;
+  const xTitle = twitterTitle ?? socialTitle;
+  const xDescription = twitterDescription ?? socialDescription;
+
   return {
     title,
     description,
     alternates: {
-      canonical: path,
+      canonical: absoluteUrl(canonicalPath),
     },
     openGraph: {
-      title: `${title} | ${siteConfig.name}`,
-      description,
-      url: absoluteUrl(path),
+      title: socialTitle,
+      description: socialDescription,
+      url: absoluteUrl(canonicalPath),
       type: "website",
+      locale: "en_CA",
+      siteName: siteConfig.name,
       images: [
         {
-          url: absoluteUrl(image),
-          width: 1600,
-          height: 900,
-          alt: title,
+          url: absoluteUrl(image.src),
+          width: image.width,
+          height: image.height,
+          alt: image.alt,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${siteConfig.name}`,
-      description,
-      images: [absoluteUrl(image)],
+      title: xTitle,
+      description: xDescription,
+      images: [absoluteUrl(image.src)],
     },
+    robots: createRobotsMetadata(robots),
   };
 }

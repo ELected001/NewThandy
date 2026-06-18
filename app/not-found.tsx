@@ -1,11 +1,9 @@
 import { ButtonLink } from "@/components/ui/button";
-import { seo } from "@/content/site";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPublishedPageMetadata } from "@/lib/metadata";
 
-export const metadata = createPageMetadata({
-  ...seo.pages.notFound,
-  robots: undefined,
-});
+export async function generateMetadata() {
+  return createPublishedPageMetadata("notFound");
+}
 
 export default function NotFound() {
   return (

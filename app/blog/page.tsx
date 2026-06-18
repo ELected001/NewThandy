@@ -2,11 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/site/json-ld";
 import { Icon } from "@/components/ui/icons";
-import { seo } from "@/content/site";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPublishedPageMetadata } from "@/lib/metadata";
 import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
+import { getSeoPageConfig } from "@/lib/seo-store";
 
-export const metadata = createPageMetadata(seo.pages.blog);
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  return createPublishedPageMetadata("blog");
+}
 
 const categories = [
   { label: "Lawn care", href: "#lawn-care", count: 1 },
@@ -113,12 +117,13 @@ const readingPaths = [
   },
 ] as const;
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogSeo = await getSeoPageConfig("blog");
   const schema = [
     createWebPageSchema({
-      name: seo.pages.blog.title,
-      description: seo.pages.blog.description,
-      path: seo.pages.blog.path,
+      name: blogSeo.title,
+      description: blogSeo.description,
+      path: blogSeo.path,
     }),
     createBreadcrumbSchema([
       { name: "Home", path: "/" },

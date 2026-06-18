@@ -38,13 +38,17 @@ Optional environment variables:
 - `GOOGLE_FORM_ENTRY_MESSAGE`
 - `GOOGLE_FORM_ENTRY_CONSENT`
   These are required before the form can submit. If they are missing, the form fails closed and asks the visitor to call instead of sending PII to an invalid URL.
+- `SEO_ADMIN_USERNAME`: username for the lightweight SEO admin dashboard at `/admin/seo`.
+- `SEO_ADMIN_PASSWORD`: password for the lightweight SEO admin dashboard at `/admin/seo`.
+- `SEO_ADMIN_SECRET`: optional signing secret for the SEO admin session cookie. Defaults to `SEO_ADMIN_PASSWORD` when omitted.
 
 ## Major decisions
 
 - The site stays inside the supported scope from the artefacts: lawn care, seasonal cleanup, and property maintenance only.
 - The primary marketing experience is now single-page: `/` contains home, services, profile, pricing, FAQ, and quote sections. Legacy `/services`, `/profile`, `/pricing`, `/contact`, and `/about` routes redirect to homepage anchors for compatibility.
-- Editable SEO metadata lives in the `seo` export in `content/site.ts`. Each indexable page configuration can define title, description, canonical path, Open Graph copy and image, Twitter/X copy and image fallback, and robots intent.
-- SEO admin readiness is platform-agnostic. `lib/seo-admin.ts` resolves all fallback behavior into a serializable manifest, and `/seo-admin-manifest.json` exposes the current editable fields, page labels, resolved canonical URLs, social image data, robots settings, sitemap inclusion, and platform handoff notes for any future CMS or custom admin panel.
+- Default SEO metadata lives in the `seo` export in `content/site.ts`. Each indexable page configuration can define title, description, canonical path, Open Graph copy and image, Twitter/X copy and image fallback, and robots intent.
+- Lightweight SEO admin is available at `/admin/seo`. Production should use `SEO_ADMIN_USERNAME` and `SEO_ADMIN_PASSWORD`; if they are not present, the app falls back to a temporary hashed credential so the admin can be reviewed without committing a plaintext password. Admin edits are stored as overrides and merged with the code defaults before metadata, sitemap, robots intent, and the SEO admin manifest are generated.
+- SEO admin readiness remains platform-agnostic. `lib/seo-admin.ts` resolves all fallback behavior into a serializable manifest, and `/seo-admin-manifest.json` exposes the current editable fields, page labels, resolved canonical URLs, social image data, robots settings, sitemap inclusion, and platform handoff notes.
 - Pricing is explicitly quote-led. There are no invented fixed prices or “starting at” tables.
 - Trust language is conservative. The implementation avoids unsupported testimonials, gallery proof, and stronger claims like “guaranteed” response times.
 - The latest visual direction is clean and brand-led: white/light-gray reading surfaces, black typography, grass-green accents, literal service imagery, and the guide tagline “Clean Lawns. Clear Surroundings.”
@@ -61,7 +65,9 @@ Optional environment variables:
 
 ## SEO admin handoff
 
-Use `/seo-admin-manifest.json` as the integration contract for whichever CMS or admin platform is chosen. The manifest is intentionally plain JSON so it can be mapped into Sanity, Contentful, Payload, Strapi, a custom admin panel, or another editor without changing page code first.
+Use `/admin/seo` for the built-in lightweight SEO editor. It controls page-level search metadata only: titles, descriptions, canonical paths, social metadata/images, and robots index/follow settings. It does not edit homepage copy, services, FAQs, blog article text, or other visible content.
+
+Use `/seo-admin-manifest.json` as the integration contract for whichever CMS or admin platform is chosen later. The manifest is intentionally plain JSON so it can be mapped into Sanity, Contentful, Payload, Strapi, a custom admin panel, or another editor without changing page code first.
 
 Recommended CMS fields per page:
 
@@ -76,6 +82,8 @@ Recommended CMS fields per page:
 - `robots`: optional `index` and `follow` booleans; utility pages should remain noindex.
 
 When a CMS is selected, keep the output shape compatible with `SeoPageConfig` in `content/site.ts`, then feed that data into `createPageMetadata`. The sitemap and robots rules already read from the same SEO source, so admin edits can stay consistent across metadata, social cards, sitemap inclusion, and structured data.
+
+The current custom admin stores overrides in a JSON file by default. That is appropriate for a Node server with persistent disk. If the site is deployed to a serverless platform where runtime filesystem writes are not durable, replace `lib/seo-store.ts` with a KV, blob, or database-backed adapter before relying on admin edits in production.
 
 ## Assumptions
 

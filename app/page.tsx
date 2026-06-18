@@ -9,8 +9,7 @@ import {
   HomeServiceShowcase,
   MotionMarquee,
 } from "@/components/site/marketing-sections";
-import { seo } from "@/content/site";
-import { createPageMetadata } from "@/lib/metadata";
+import { createPublishedPageMetadata } from "@/lib/metadata";
 import {
   createBreadcrumbSchema,
   createFaqSchema,
@@ -19,7 +18,11 @@ import {
   createWebsiteSchema,
 } from "@/lib/schema";
 
-export const metadata = createPageMetadata(seo.pages.home);
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  return createPublishedPageMetadata("home");
+}
 
 type HomePageProps = {
   searchParams?: Promise<{

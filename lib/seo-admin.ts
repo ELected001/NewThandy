@@ -1,14 +1,15 @@
 import { seo, seoAdmin, siteConfig, type SeoPageConfig, type SeoRobots } from "@/content/site";
+import { getSeoPageConfigs, type SeoPageId } from "@/lib/seo-store";
 import { absoluteUrl } from "@/lib/utils";
 
-type SeoPageEntry = [keyof typeof seo.pages, SeoPageConfig];
+type SeoPageEntry = [SeoPageId, SeoPageConfig];
 
 const defaultRobots: SeoRobots = {
   index: true,
   follow: true,
 };
 
-export function resolveSeoPageConfig(id: keyof typeof seo.pages, page: SeoPageConfig) {
+export function resolveSeoPageConfig(id: SeoPageId, page: SeoPageConfig) {
   const canonicalPath = page.canonical ?? page.path;
   const image = page.image ?? seo.defaultImage;
   const openGraphTitle = page.openGraphTitle ?? page.title;
@@ -45,7 +46,15 @@ export function getSeoAdminPages() {
   );
 }
 
-export function createSeoAdminManifest() {
+export async function getPublishedSeoAdminPages() {
+  const pages = await getSeoPageConfigs();
+
+  return (Object.entries(pages) as SeoPageEntry[]).map(([id, page]) =>
+    resolveSeoPageConfig(id, page),
+  );
+}
+
+export async function createSeoAdminManifest() {
   return {
     version: seoAdmin.version,
     site: {
@@ -65,7 +74,7 @@ export function createSeoAdminManifest() {
       robots: defaultRobots,
     },
     fields: seoAdmin.fields,
-    pages: getSeoAdminPages(),
+    pages: await getPublishedSeoAdminPages(),
     platformNotes: seoAdmin.platformNotes,
   };
 }

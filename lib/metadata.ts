@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { seo, siteConfig, type SeoPageConfig, type SeoRobots } from "@/content/site";
+import { getSeoPageConfig, type SeoPageId } from "@/lib/seo-store";
 import { absoluteUrl } from "@/lib/utils";
 
 type PageMetadataOptions = {
@@ -85,4 +86,8 @@ export function createPageMetadata({
     },
     robots: createRobotsMetadata(robots),
   };
+}
+
+export async function createPublishedPageMetadata(id: SeoPageId) {
+  return createPageMetadata(await getSeoPageConfig(id));
 }

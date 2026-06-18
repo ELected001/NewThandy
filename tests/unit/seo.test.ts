@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 import { faqItems, seo, serviceCards } from "@/content/site";
@@ -10,10 +12,28 @@ import {
   createWebPageSchema,
   createWebsiteSchema,
 } from "@/lib/schema";
-import { createSeoAdminManifest, getSeoAdminPages } from "@/lib/seo-admin";
+import {
+  createSeoAdminManifest,
+  getPublishedSeoAdminPages,
+  getSeoAdminPages,
+} from "@/lib/seo-admin";
+import { getSeoPageConfig, saveSeoPageOverride } from "@/lib/seo-store";
+import { validateSeoAdminForm } from "@/lib/seo-validation";
 import { absoluteUrl } from "@/lib/utils";
 
 describe("SEO contract", () => {
+  const seoStorePath = path.join(process.cwd(), "data", "seo-overrides.json");
+  let originalSeoStore: string;
+
+  beforeEach(async () => {
+    originalSeoStore = await readFile(seoStorePath, "utf8");
+    await writeFile(seoStorePath, '{\n  "pages": {}\n}\n', "utf8");
+  });
+
+  afterEach(async () => {
+    await writeFile(seoStorePath, originalSeoStore, "utf8");
+  });
+
   it("keeps editable page titles and descriptions unique", () => {
     const pages = Object.values(seo.pages);
     const titles = pages.map((page) => page.title);
@@ -37,8 +57,8 @@ describe("SEO contract", () => {
     expect(twitter.images?.[0]).toBe(absoluteUrl(seo.pages.home.image?.src));
   });
 
-  it("exposes a platform-agnostic SEO admin manifest with resolved fallbacks", () => {
-    const manifest = createSeoAdminManifest();
+  it("exposes a platform-agnostic SEO admin manifest with resolved fallbacks", async () => {
+    const manifest = await createSeoAdminManifest();
     const adminPages = getSeoAdminPages();
     const fieldNames = manifest.fields.map((field) => field.name);
 
@@ -82,8 +102,8 @@ describe("SEO contract", () => {
     expect(notFoundMetadata.robots).toMatchObject({ index: false, follow: true });
   });
 
-  it("only includes indexable canonical pages in the sitemap", () => {
-    const urls = sitemap().map((entry) => entry.url);
+  it("only includes indexable canonical pages in the sitemap", async () => {
+    const urls = (await sitemap()).map((entry) => entry.url);
 
     expect(urls).toContain(absoluteUrl("/"));
     expect(urls).toContain(absoluteUrl("/blog"));
@@ -118,5 +138,65 @@ describe("SEO contract", () => {
     expect(localBusiness.hasOfferCatalog.itemListElement).toHaveLength(serviceCards.length);
     expect(faq["@type"]).toBe("FAQPage");
     expect(faq.mainEntity).toHaveLength(faqItems.length);
+  });
+
+  it("applies saved SEO admin overrides to published pages and the manifest", async () => {
+    await saveSeoPageOverride("blog", {
+      title: "Seasonal lawn care notes for Hamilton",
+      description: "Updated admin-managed blog description for local lawn care notes.",
+      canonical: "/blog",
+      robots: {
+        index: true,
+        follow: true,
+      },
+    });
+
+    const page = await getSeoPageConfig("blog");
+    const manifest = await createSeoAdminManifest();
+    const adminPages = await getPublishedSeoAdminPages();
+
+    expect(page.title).toBe("Seasonal lawn care notes for Hamilton");
+    expect(manifest.pages.find((item) => item.id === "blog")?.title).toBe(
+      "Seasonal lawn care notes for Hamilton",
+    );
+    expect(adminPages.find((item) => item.id === "blog")?.canonicalUrl).toBe(
+      absoluteUrl("/blog"),
+    );
+  });
+
+  it("validates admin edits before they can break search metadata", () => {
+    const formData = new FormData();
+
+    formData.set("pageId", "home");
+    formData.set("title", "A".repeat(61));
+    formData.set("description", "Valid description");
+    formData.set("canonical", "bad canonical");
+    formData.set("imageSrc", "/images/brand/logo-black-green.png");
+
+    const result = validateSeoAdminForm(formData);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.fieldErrors.title).toBeTruthy();
+      expect(result.fieldErrors.canonical).toBeTruthy();
+      expect(result.fieldErrors.imageAlt).toBeTruthy();
+    }
+  });
+
+  it("keeps utility pages locked out of the index even if the form asks otherwise", () => {
+    const formData = new FormData();
+
+    formData.set("pageId", "thankYou");
+    formData.set("title", seo.pages.thankYou.title);
+    formData.set("description", seo.pages.thankYou.description);
+    formData.set("robotsIndex", "on");
+    formData.set("robotsFollow", "on");
+
+    const result = validateSeoAdminForm(formData);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.fieldErrors.robotsIndex).toBe("Utility pages must remain noindex.");
+    }
   });
 });

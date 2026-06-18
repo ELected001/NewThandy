@@ -1,13 +1,17 @@
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icons";
-import { seo, siteConfig } from "@/content/site";
-import { createPageMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/content/site";
+import { createPublishedPageMetadata } from "@/lib/metadata";
 
 type ThankYouPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const metadata = createPageMetadata(seo.pages.thankYou);
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  return createPublishedPageMetadata("thankYou");
+}
 
 const serviceLabels: Record<string, string> = {
   "lawn-care": "lawn care",

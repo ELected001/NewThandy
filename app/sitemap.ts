@@ -1,10 +1,13 @@
 import type { MetadataRoute } from "next";
-import { seo, type SeoPageConfig } from "@/content/site";
+import { seo } from "@/content/site";
+import { getSeoPageConfigs } from "@/lib/seo-store";
 import { absoluteUrl } from "@/lib/utils";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
-  const pages = Object.values(seo.pages) as SeoPageConfig[];
+  const pages = Object.values(await getSeoPageConfigs());
 
   return pages
     .filter((page) => page.robots?.index !== false)

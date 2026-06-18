@@ -166,6 +166,12 @@ export async function writeSeoOverrideStore(store: SeoOverrideStore) {
   await rename(tempPath, seoOverrideStorePath);
 }
 
+export function isReadOnlySeoStoreError(error: unknown) {
+  const code = (error as NodeJS.ErrnoException | undefined)?.code;
+
+  return code === "EROFS" || code === "EACCES" || code === "EPERM";
+}
+
 export async function getSeoPageConfig(id: SeoPageId): Promise<SeoPageConfig> {
   const store = await readSeoOverrideStore();
   const basePage: SeoPageConfig = seo.pages[id];

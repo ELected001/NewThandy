@@ -13,6 +13,7 @@ type SeoAdminEditorPageProps = {
   }>;
   searchParams?: Promise<{
     reset?: string;
+    storage?: string;
   }>;
 };
 
@@ -65,6 +66,7 @@ export default async function SeoAdminEditorPage({
           lockedNoindex={lockedNoindex}
           page={resolvedPage}
           resetNotice={query?.reset === "1"}
+          storageNotice={query?.storage === "readonly"}
         />
       </div>
     </section>

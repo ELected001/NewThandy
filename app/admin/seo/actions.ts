@@ -9,7 +9,12 @@ import {
   isSeoAdminConfigured,
   verifySeoAdminCredentials,
 } from "@/lib/admin-auth";
-import { isSeoPageId, resetSeoPageOverride, saveSeoPageOverride } from "@/lib/seo-store";
+import {
+  isReadOnlySeoStoreError,
+  isSeoPageId,
+  resetSeoPageOverride,
+  saveSeoPageOverride,
+} from "@/lib/seo-store";
 import {
   getSeoAdminFormValues,
   type SeoAdminFieldErrors,
@@ -28,6 +33,9 @@ export type SeoEditorState = {
   formError?: string;
   savedAt?: string;
 };
+
+const readOnlyStoreMessage =
+  "This deployment cannot save SEO edits because its filesystem is read-only. Connect a persistent store before relying on this admin in production.";
 
 function revalidateSeoSurfaces(pageId?: string) {
   revalidatePath("/");
@@ -99,7 +107,21 @@ export async function saveSeoPageAction(
     };
   }
 
-  await saveSeoPageOverride(result.data.pageId, result.data.override);
+  try {
+    await saveSeoPageOverride(result.data.pageId, result.data.override);
+  } catch (error) {
+    if (isReadOnlySeoStoreError(error)) {
+      return {
+        status: "error",
+        values: result.data.values,
+        fieldErrors: {},
+        formError: readOnlyStoreMessage,
+      };
+    }
+
+    throw error;
+  }
+
   revalidateSeoSurfaces(result.data.pageId);
 
   return {
@@ -121,7 +143,16 @@ export async function resetSeoPageAction(formData: FormData) {
     redirect("/admin/seo");
   }
 
-  await resetSeoPageOverride(pageId);
+  try {
+    await resetSeoPageOverride(pageId);
+  } catch (error) {
+    if (isReadOnlySeoStoreError(error)) {
+      redirect(`/admin/seo/${pageId}?storage=readonly`);
+    }
+
+    throw error;
+  }
+
   revalidateSeoSurfaces(pageId);
   redirect(`/admin/seo/${pageId}?reset=1`);
 }

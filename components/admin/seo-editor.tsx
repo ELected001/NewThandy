@@ -33,6 +33,7 @@ type SeoEditorProps = {
   initialValues: SeoAdminFormValues;
   lockedNoindex: boolean;
   resetNotice?: boolean;
+  storageNotice?: boolean;
 };
 
 function SaveButton() {
@@ -197,6 +198,7 @@ export function SeoEditor({
   lockedNoindex,
   page,
   resetNotice = false,
+  storageNotice = false,
 }: SeoEditorProps) {
   const initialState: SeoEditorState = {
     status: "idle",
@@ -224,6 +226,12 @@ export function SeoEditor({
         {resetNotice ? (
           <p className="rounded-[0.85rem] border border-[rgb(17_22_17/8%)] bg-[var(--surface-soft)] px-4 py-3 text-sm font-semibold text-[var(--ink-900)]">
             This page was reset to the default SEO values.
+          </p>
+        ) : null}
+        {storageNotice ? (
+          <p className="rounded-[0.85rem] border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+            This deployment cannot save SEO edits because its filesystem is read-only.
+            Connect a persistent store before relying on this admin in production.
           </p>
         ) : null}
         {state.formError ? (

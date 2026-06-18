@@ -17,7 +17,11 @@ import {
   getPublishedSeoAdminPages,
   getSeoAdminPages,
 } from "@/lib/seo-admin";
-import { getSeoPageConfig, saveSeoPageOverride } from "@/lib/seo-store";
+import {
+  getSeoPageConfig,
+  isReadOnlySeoStoreError,
+  saveSeoPageOverride,
+} from "@/lib/seo-store";
 import { validateSeoAdminForm } from "@/lib/seo-validation";
 import { absoluteUrl } from "@/lib/utils";
 
@@ -249,5 +253,17 @@ describe("SEO contract", () => {
     if (!result.success) {
       expect(result.fieldErrors.robotsIndex).toBe("Utility pages must remain noindex.");
     }
+  });
+
+  it("recognizes read-only store errors from serverless deployments", () => {
+    expect(isReadOnlySeoStoreError(Object.assign(new Error("read-only"), { code: "EROFS" }))).toBe(
+      true,
+    );
+    expect(isReadOnlySeoStoreError(Object.assign(new Error("denied"), { code: "EACCES" }))).toBe(
+      true,
+    );
+    expect(isReadOnlySeoStoreError(Object.assign(new Error("missing"), { code: "ENOENT" }))).toBe(
+      false,
+    );
   });
 });

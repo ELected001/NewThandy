@@ -116,7 +116,7 @@ export const seo = {
     home: {
       title: "Lawn care and property maintenance for homes and properties",
       description:
-        "Request quote-led lawn mowing, leaf cleaning, seasonal cleanup, and outdoor property maintenance from Thandy Landscaping Services Inc. for Hamilton and surrounding communities.",
+        "Quote-led lawn mowing, leaf cleanup, seasonal cleanup, and property maintenance from Thandy Landscaping Services Inc. for Hamilton and nearby communities.",
       path: "/",
       openGraphTitle: siteConfig.hero.title,
       openGraphDescription:

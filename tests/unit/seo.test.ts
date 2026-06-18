@@ -3,7 +3,7 @@ import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
-import { faqItems, seo, serviceCards } from "@/content/site";
+import { faqItems, seo, serviceCards, type SeoPageConfig } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   createFaqSchema,
@@ -41,6 +41,57 @@ describe("SEO contract", () => {
 
     expect(new Set(titles).size).toBe(titles.length);
     expect(new Set(descriptions).size).toBe(descriptions.length);
+  });
+
+  it("keeps default SEO page values valid for the admin editor", () => {
+    for (const [pageId, page] of Object.entries(seo.pages) as Array<
+      [string, SeoPageConfig]
+    >) {
+      const formData = new FormData();
+
+      formData.set("pageId", pageId);
+      formData.set("title", page.title);
+      formData.set("description", page.description);
+
+      if (page.canonical) {
+        formData.set("canonical", page.canonical);
+      }
+
+      if (page.openGraphTitle) {
+        formData.set("openGraphTitle", page.openGraphTitle);
+      }
+
+      if (page.openGraphDescription) {
+        formData.set("openGraphDescription", page.openGraphDescription);
+      }
+
+      if (page.twitterTitle) {
+        formData.set("twitterTitle", page.twitterTitle);
+      }
+
+      if (page.twitterDescription) {
+        formData.set("twitterDescription", page.twitterDescription);
+      }
+
+      if (page.image) {
+        formData.set("imageSrc", page.image.src);
+        formData.set("imageAlt", page.image.alt);
+        formData.set("imageWidth", String(page.image.width));
+        formData.set("imageHeight", String(page.image.height));
+      }
+
+      if (page.robots?.index !== false) {
+        formData.set("robotsIndex", "on");
+      }
+
+      if (page.robots?.follow !== false) {
+        formData.set("robotsFollow", "on");
+      }
+
+      const result = validateSeoAdminForm(formData);
+
+      expect(result).toMatchObject({ success: true });
+    }
   });
 
   it("builds complete social metadata with a canonical URL", () => {

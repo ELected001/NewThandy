@@ -1,16 +1,14 @@
 import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icons";
 import { siteConfig } from "@/content/site";
-import { createPublishedPageMetadata } from "@/lib/metadata";
+import { createSitePageMetadata } from "@/lib/metadata";
 
 type ThankYouPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const dynamic = "force-dynamic";
-
-export async function generateMetadata() {
-  return createPublishedPageMetadata("thankYou");
+export function generateMetadata() {
+  return createSitePageMetadata("thankYou");
 }
 
 const serviceLabels: Record<string, string> = {

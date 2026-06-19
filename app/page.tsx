@@ -9,7 +9,7 @@ import {
   HomeServiceShowcase,
   MotionMarquee,
 } from "@/components/site/marketing-sections";
-import { createPublishedPageMetadata } from "@/lib/metadata";
+import { createSitePageMetadata } from "@/lib/metadata";
 import {
   createBreadcrumbSchema,
   createFaqSchema,
@@ -18,10 +18,8 @@ import {
   createWebsiteSchema,
 } from "@/lib/schema";
 
-export const dynamic = "force-dynamic";
-
-export async function generateMetadata() {
-  return createPublishedPageMetadata("home");
+export function generateMetadata() {
+  return createSitePageMetadata("home");
 }
 
 type HomePageProps = {

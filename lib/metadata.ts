@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { seo, siteConfig, type SeoPageConfig, type SeoRobots } from "@/content/site";
-import { getSeoPageConfig, type SeoPageId } from "@/lib/seo-store";
 import { absoluteUrl } from "@/lib/utils";
+
+export type SeoPageId = keyof typeof seo.pages;
 
 type PageMetadataOptions = {
   title: string;
@@ -88,6 +89,6 @@ export function createPageMetadata({
   };
 }
 
-export async function createPublishedPageMetadata(id: SeoPageId) {
-  return createPageMetadata(await getSeoPageConfig(id));
+export function createSitePageMetadata(id: SeoPageId) {
+  return createPageMetadata(seo.pages[id]);
 }

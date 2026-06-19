@@ -1,8 +1,8 @@
 import { ButtonLink } from "@/components/ui/button";
-import { createPublishedPageMetadata } from "@/lib/metadata";
+import { createSitePageMetadata } from "@/lib/metadata";
 
-export async function generateMetadata() {
-  return createPublishedPageMetadata("notFound");
+export function generateMetadata() {
+  return createSitePageMetadata("notFound");
 }
 
 export default function NotFound() {

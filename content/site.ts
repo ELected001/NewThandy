@@ -92,16 +92,6 @@ export type SeoPageConfig = {
   robots?: SeoRobots;
 };
 
-export type SeoAdminField = {
-  name: keyof SeoPageConfig;
-  label: string;
-  type: "text" | "textarea" | "url" | "image" | "robots";
-  required: boolean;
-  maxLength?: number;
-  helpText: string;
-  fallback?: string;
-};
-
 export const seo = {
   defaultTitle: `${siteConfig.name} | Local property care`,
   titleTemplate: `%s | ${siteConfig.name}`,
@@ -189,106 +179,6 @@ export const seo = {
   defaultDescription: string;
   defaultImage: SeoImage;
   pages: Record<string, SeoPageConfig>;
-};
-
-export const seoAdmin = {
-  version: 1,
-  pageLabels: {
-    home: "Homepage",
-    blog: "Blog index",
-    thankYou: "Quote confirmation",
-    notFound: "404 page",
-  },
-  fields: [
-    {
-      name: "title",
-      label: "Page title",
-      type: "text",
-      required: true,
-      maxLength: 60,
-      helpText: "Primary browser and search result title. Keep it specific to the page.",
-    },
-    {
-      name: "description",
-      label: "Meta description",
-      type: "textarea",
-      required: true,
-      maxLength: 160,
-      helpText: "Search result summary. Write naturally and avoid keyword stuffing.",
-    },
-    {
-      name: "canonical",
-      label: "Canonical URL path",
-      type: "url",
-      required: false,
-      helpText: "Optional canonical override. Use a site-relative path unless a cross-domain canonical is intentional.",
-      fallback: "path",
-    },
-    {
-      name: "openGraphTitle",
-      label: "Open Graph title",
-      type: "text",
-      required: false,
-      maxLength: 70,
-      helpText: "Social sharing title for Facebook, LinkedIn, and other Open Graph consumers.",
-      fallback: "title",
-    },
-    {
-      name: "openGraphDescription",
-      label: "Open Graph description",
-      type: "textarea",
-      required: false,
-      maxLength: 200,
-      helpText: "Social sharing description for Open Graph consumers.",
-      fallback: "description",
-    },
-    {
-      name: "twitterTitle",
-      label: "Twitter/X title",
-      type: "text",
-      required: false,
-      maxLength: 70,
-      helpText: "Optional X card title.",
-      fallback: "openGraphTitle, title",
-    },
-    {
-      name: "twitterDescription",
-      label: "Twitter/X description",
-      type: "textarea",
-      required: false,
-      maxLength: 200,
-      helpText: "Optional X card description.",
-      fallback: "openGraphDescription, description",
-    },
-    {
-      name: "image",
-      label: "Social image",
-      type: "image",
-      required: false,
-      helpText: "Open Graph and Twitter/X image with required alt text, width, and height.",
-      fallback: "seo.defaultImage",
-    },
-    {
-      name: "robots",
-      label: "Robots",
-      type: "robots",
-      required: false,
-      helpText: "Index/follow controls. Use noindex for confirmation, utility, and error pages only.",
-      fallback: "index: true, follow: true",
-    },
-  ],
-  platformNotes: [
-    "Map these fields one-to-one in the chosen CMS or admin panel.",
-    "Keep canonical paths site-relative unless there is an approved external canonical.",
-    "Require social image alt text whenever a social image is changed.",
-    "Do not index thank-you, 404, or other utility pages.",
-    "Use the manifest endpoint as the source for current values and fallback behavior.",
-  ],
-} as const satisfies {
-  version: number;
-  pageLabels: Record<keyof typeof seo.pages, string>;
-  fields: SeoAdminField[];
-  platformNotes: readonly string[];
 };
 
 export const navigation = [

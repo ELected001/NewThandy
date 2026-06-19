@@ -2,14 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/site/json-ld";
 import { Icon } from "@/components/ui/icons";
-import { createPublishedPageMetadata } from "@/lib/metadata";
+import { seo } from "@/content/site";
+import { createSitePageMetadata } from "@/lib/metadata";
 import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
-import { getSeoPageConfig } from "@/lib/seo-store";
 
-export const dynamic = "force-dynamic";
-
-export async function generateMetadata() {
-  return createPublishedPageMetadata("blog");
+export function generateMetadata() {
+  return createSitePageMetadata("blog");
 }
 
 const categories = [
@@ -117,8 +115,8 @@ const readingPaths = [
   },
 ] as const;
 
-export default async function BlogPage() {
-  const blogSeo = await getSeoPageConfig("blog");
+export default function BlogPage() {
+  const blogSeo = seo.pages.blog;
   const schema = [
     createWebPageSchema({
       name: blogSeo.title,
